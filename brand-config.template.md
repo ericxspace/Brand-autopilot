@@ -1,0 +1,51 @@
+# Brand Config — fill via the `/brand-autopilot-setup` interview
+*Copy to `brand-config.md`, replace every value. Every routine template reads its `{{PLACEHOLDERS}}` from here.*
+
+## Identity & voice
+| Placeholder | Value | Example |
+|---|---|---|
+| `{{BRAND_NAME}}` | | Retro Loft Co. |
+| `{{STORE_DOMAIN}}` | | mystore.com |
+| `{{NICHE}}` | | Gen Z home decor — Memphis / dopamine / eclectic MCM |
+| `{{AESTHETICS}}` | comma list, drives hashtag banks + copy matching | dopamine, memphis, mcm, eclectic |
+| `{{AUDIENCE}}` | | Gen Z small-space / apartment decorators, US + Canada |
+| `{{VOICE}}` | 1–2 lines | playful, confident, aesthetic-literate; never corporate |
+| `{{TAGLINE_CTA}}` | the EXACT sign-off sentence for pins/blog CTAs — never varied (repetition is the asset) | "Decorate boldly at mystore.com." |
+| `{{TIMEZONE}}` | IANA | America/New_York |
+| `{{AUDIENCE_PEAK_TZ}}` | audience timezone for slot grids | America/New_York |
+
+## Platforms & connectors
+| Placeholder | Value | Notes |
+|---|---|---|
+| `{{STORE_PLATFORM}}` | | Shopify (MCP connector) |
+| `{{SCHEDULER}}` | | Metricool — brand/blogId `{{METRICOOL_BRAND_ID}}` |
+| `{{PINTEREST_ACCOUNT}}` | | handle |
+| `{{SOCIAL_NETWORKS}}` | | tiktok, instagram, youtube |
+| `{{REDDIT_USERNAME}}` | the founder's own account — Claude only ever READS its public feed | u/yourhandle |
+| `{{EMAIL_PLATFORM}}` | optional | Klaviyo account id |
+
+## Assets (Google Drive)
+| Placeholder | Value | Notes |
+|---|---|---|
+| `{{DRIVE_PRODUCT_FOLDER_ID}}` | | parent of per-product image subfolders (one folder per product, e.g. `P0001`) |
+| `{{DRIVE_INSPIRATION_FOLDER_ID}}` | | lifestyle/room-scene image pool |
+| `{{DRIVE_SOCIAL_INTAKE_FOLDER_ID}}` | | where you drop short-form videos |
+
+## Outputs
+| Placeholder | Value | Notes |
+|---|---|---|
+| `{{NOTION_PIN_AUDIT_PARENT}}` | page ID | daily pin audit pages |
+| `{{NOTION_WEEKLY_REPORT_PARENT}}` | page ID | weekly audits |
+| `{{NOTION_REDDIT_QUEUE_PARENT}}` | page ID | reddit queue |
+| `{{NOTION_DIGEST_PARENT}}` | page ID | Saturday digest |
+| `{{OPS_FOLDER}}` | local path | ledgers & logs, e.g. `<project>/ops/` |
+
+## Cadence & autonomy choices
+| Placeholder | Value | Options |
+|---|---|---|
+| `{{PINS_PER_DAY}}` | | default 10 (6 product + 4 inspiration) |
+| `{{BLOG_DAYS}}` | | default Tue + Sat |
+| `{{BLOG_PUBLISH_MODE}}` | | `draft` (recommended start) or `publish` (full auto) |
+| `{{PRODUCT_GATE_MODE}}` | | `propose` (recommended start) or `full-auto` (clean PASS activates) |
+| `{{REDDIT_DAYS}}` | | default Tue/Thu/Sat |
+| `{{PROHIBITED_EXTRAS}}` | niche-specific additions to the IP gate's red-flag list | e.g. "kids' sleep products" |
