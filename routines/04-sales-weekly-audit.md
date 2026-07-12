@@ -19,11 +19,15 @@ STEP 3 — EMAIL HEALTH (if {{EMAIL_PLATFORM}} connected; use current-year bench
 
 STEP 4 — CRO REVIEW (read-only, rotating): each week ONE surface in rotation — homepage → collection → product page → cart — friction, trust, mobile UX, above-the-fold hierarchy, grounded in this week's funnel drop-offs. Note the rotation position.
 
+STEP 4b — ORGANIC SEARCH OPS (rules: playbooks/multi-engine-seo.md — read its write-time + ops sections before this step):
+WEEKLY: interpret the search-bucket sessions/CR/revenue from Step 2 (search CR should hold a healthy multiple of social CR — that multiple is the strategy's proof); GSC quick pass IF a logged-in browser session is available — coverage deltas + STRIKING-DISTANCE HARVEST (queries at position 4–15 with impressions → route each to a small on-page tweak or to the blog routine's keyword bank with source "gsc"); flag new schema errors from GSC's Shopping/Merchant-listings report; propose one internal link toward the top striking-distance page. If GSC can't be read this run, write "GSC: not read this week" — never fabricate.
+MONTHLY (first audit of the month): full GSC query/page read; indexed-product coverage vs active count; Bing Webmaster Tools check; Rich Results validation trio (1 product / 1 collection / 1 article); GSC 404 report → redirect proposals; verdict line "Organic ops: HEALTHY / WATCH (<issue>) / ACTION (<fix>)". If a Merchant Center feed is planned, report open readiness blocks (identity truthfulness, policy parity, price accuracy, schema coverage) under "decisions waiting".
+
 STEP 5 — DELIVERABLES:
 1. TOP 5 FINDINGS, one line each, data-cited, impact-ordered.
 2. RECOMMENDATIONS TABLE: what / expected impact (H/M/L) / effort (H/M/L) / priority / status PROPOSED; store-touching items marked "NEEDS APPROVAL".
 3. SEASONAL CAMPAIGN CONCEPT keyed to the nearest retail moment for {{AUDIENCE}} (back-to-school, Halloween, BFCM, Christmas, Valentine's…): concept name, headline copy in the brand voice, sub-line, CTA, visual brief with live-verified products, placement. Concept only — implementation waits for approval.
-4. CHANNEL NOTES: one line each from the other groups' reports.
+4. CHANNEL NOTES: one line each from the other groups' reports + the Step 4b organic-search verdict.
 Output: report page (Notion, under a "Sales Weekly Audit" parent) + the log append. Chat: 3-line TL;DR + the approval-needed list.
 
 GUARDRAILS: never writes to the store, theme, email platform, or scheduler; never sends campaigns; never creates discounts; approved implementations happen in a normal working session, not inside this audit run.

@@ -2,6 +2,8 @@
 
 Ten templates, seven groups. Each is a complete scheduled-task prompt once its `{{PLACEHOLDERS}}` are filled from `brand-config.md` (the `/brand-autopilot-setup` skill does this for you).
 
+Two templates co-read the shared **`playbooks/`** (02 Blog and 04 Sales): `blog-editorial-standard.md` (the 90/10 subtle-sell rule + mandatory pre-delivery gate) and `multi-engine-seo.md` (Bing/Copilot write-time rules + the weekly/monthly organic-search ops checklist). Keep the playbook files wherever your instantiated prompts can read them — the setup skill resolves the paths.
+
 ## Schedule (defaults, user-local time)
 
 | # | Routine | Default trigger |
@@ -25,6 +27,7 @@ Every routine prompt opens with the same header: TRIGGER · STRATEGIC GOAL · SC
 ## Handoffs between groups
 - 02 Blog → `distribution-queue.md` → 01 Pinterest consumes a second pin concept per post; FB/IG captions are drafted for the founder, never auto-posted.
 - 01 Weekly Audit → `weekly-learnings.md` (read nightly by 01 Daily) + `blog-learnings.md` (read by 02).
+- 04 Sales (Step 4b) → GSC striking-distance queries (position 4–15 with impressions) → 02's keyword bank — your own impression data beats any keyword tool.
 - 06 Products → activated products feed 01/02/05 content; excluded products sync to 01's block-list.
 - 04 Sales findings can re-prioritize every content routine (via the founder).
 - 07 Digest reads all groups' ledgers every Saturday.

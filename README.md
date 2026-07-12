@@ -12,6 +12,7 @@ Built and battle-tested on a real Gen Z home-decor store, then genericized so an
 |---|---|
 | `skills/brand-autopilot-setup/` | An installable Claude **skill** that interviews you and builds YOUR routine system from the templates |
 | `routines/` | 10 routine prompt **templates** (7 groups) with `{{PLACEHOLDERS}}` + an architecture README |
+| `playbooks/` | Shared standards the routines co-read: the **blog editorial standard** (90/10 subtle-sell + the delete-the-products gate) and **multi-engine SEO** (Google + Bing + ChatGPT/Copilot rules + the organic-search ops checklist) |
 | `brand-config.template.md` | The single config sheet the setup interview fills in |
 
 ### The 7 groups (10 recurring routines)
@@ -52,6 +53,8 @@ Built and battle-tested on a real Gen Z home-decor store, then genericized so an
 **Honesty rails.** No routine may fabricate a metric, a review, a statistic, or a product link — ever. When a connector is down, the routine does what it still can, states exactly what failed, uses its written fallback (e.g. a ready-to-paste scheduling sheet when the scheduler is unreachable), and flags it for the Saturday digest.
 
 **Anti-spam by design.** Fresh content only (no re-posting the same image twice, ever — enforced by dedupe ledgers), per-day caps per platform and per board, no engagement tricks. This isn't cosmetic: the source brand traced a Pinterest distribution collapse to duplicate-image batching. Fresh pins drive 90%+ of Pinterest traffic (Tailwind 2026 benchmark, 1.2M pins).
+
+**Advice-first blog, enforced.** Every article must pass a written editorial gate before it ships: ≥90/10 value-to-promotion by word count, at most 4 product mentions and 2 cards, and the **delete-the-products self-test** — remove every product reference and the article must still be worth reading. Born from a real rejected post whose outline was the product list; the gate is in `playbooks/blog-editorial-standard.md`. The blog also writes for **both search engines and AI assistants** at once: Bing's index feeds ChatGPT and Copilot, so the templates bake in exact-phrase placement, as-written meta descriptions, and answer-first structure (`playbooks/multi-engine-seo.md`).
 
 **The learning loop (the part that makes it *increasingly* good):**
 1. Every piece of content gets **feature tags at creation** (title style, opener, image type, board, slot, aesthetic…).

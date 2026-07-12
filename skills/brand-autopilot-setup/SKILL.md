@@ -6,7 +6,7 @@ description: Set up the Brand Autopilot routine system for a small e-commerce br
 You are installing **Brand Autopilot** (see the kit's README.md for the philosophy). The user is likely a no-coder founder. Your job: one interview → a fully running, safety-railed routine system tailored to their brand. Never skip the approval gate at the end.
 
 ## Step 1 — Locate the kit & verify connectors
-1. Find the kit folder (this skill's parent repo: `routines/`, `brand-config.template.md`). If the user only pasted this SKILL.md, ask for the kit folder or the GitHub URL and fetch the templates.
+1. Find the kit folder (this skill's parent repo: `routines/`, `playbooks/`, `brand-config.template.md`). If the user only pasted this SKILL.md, ask for the kit folder or the GitHub URL and fetch the templates.
 2. Ping each connector cheaply and report a ✅/❌ table: store platform (e.g. Shopify shop-info), Metricool (getBrandSettings — note the brandId and which networks are connected), Google Drive (list one folder), Notion (search one page), web search. Optional: Klaviyo, Canva.
 3. For every ❌: name what breaks without it and its fallback (Metricool ❌ → routines output ready-to-paste scheduling sheets; Notion ❌ → local markdown reports). Never pretend a connector works.
 
@@ -25,7 +25,7 @@ Write the completed `brand-config.md` next to the template and show it for confi
 
 ## Step 3 — Instantiate the routines
 For each template in `routines/` (skip groups the user opted out of):
-1. Replace every `{{PLACEHOLDER}}` from brand-config.md. Adapt sections for missing connectors using the template's written fallbacks — never leave a dangling reference to a connector the user lacks.
+1. Replace every `{{PLACEHOLDER}}` from brand-config.md. Adapt sections for missing connectors using the template's written fallbacks — never leave a dangling reference to a connector the user lacks. Copy `playbooks/` into the user's project (e.g. next to `{{OPS_FOLDER}}`) and rewrite each template's `playbooks/...` references to that absolute path — scheduled prompts must be able to read them at run time. Fill the `{{TAGLINE_CTA}}` placeholder inside `playbooks/blog-editorial-standard.md` too.
 2. If the user's primary visual channel isn't Pinterest, adapt Group 01 mechanically (same rotation/dedupe/hook-title/slot-grid/feature-ledger mechanics; platform-specific push calls per the scheduler's docs).
 3. Create each as a scheduled task (cron in the USER's local timezone; convert the template's default times). Name = the template's `0X · Group — Function (cadence)` line. If scheduled tasks aren't available in this environment, output each finished prompt in a copy-paste block with its cron line and tell the user how to add it (Claude app → scheduled tasks, or cloud scheduled agents).
 4. Respect the evening chain: if Groups 06 and 01 are both installed, 06 must finish before 01 fires (default: 06 at 20:00, 01 at 21:00 local).
