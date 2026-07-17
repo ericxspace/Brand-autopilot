@@ -1,10 +1,10 @@
-# 02 · Blog — Research & Write (2×/wk)
+# 02 · Blog — Research & Write ({{BLOG_POSTS_PER_WEEK}}×/wk)
 
 ROUTINE STANDARD:
 - TRIGGER: {{BLOG_DAYS}} 21:00 {{TIMEZONE}}.
 - STRATEGIC GOAL: an SEO/GEO/AEO blog that pulls organic + social traffic to {{STORE_DOMAIN}}.
 - SCOPE: ONE post per run, end-to-end (research → brief → write → create in store → distribute). NOT in scope: theme changes, posting to FB/IG (captions are drafted only).
-- CADENCE: 2 posts/week, HARD CAP 3.
+- CADENCE: {{BLOG_POSTS_PER_WEEK}} posts/week (one per run day in {{BLOG_DAYS}}), HARD CAP 3 — beyond that quality drops and topics cannibalize each other.
 - AUTONOMY: per {{BLOG_PUBLISH_MODE}} — `draft` = create unpublished + notify the founder; `publish` = live + auto-distribute. Everything else autonomous.
 - KPIs: organic sessions, social referral sessions, keywords ranked (no Search Console connector → "check manually", never fabricate), blog-assisted conversions (utm_source=blog).
 - HANDOFFS: IN ← blog-learnings.md (written Mondays by 01 Weekly Audit — pin-derived demand signals are the strongest input, weight above generic research). OUT → distribution-queue.md (2nd pin concept for 01; FB/IG caption drafts for the founder); topic ledger read by 00 Digest.

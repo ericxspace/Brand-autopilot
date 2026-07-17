@@ -49,8 +49,12 @@
 | `{{PINS_PER_DAY}}` | total pins/day | default 10 — treat 10 as the anti-spam ceiling; if the account is new or recovering, trim the TOTAL, not just the ratio |
 | `{{PRODUCT_PINS_PER_DAY}}` | product-pin share of the total | default 6 |
 | `{{INSPIRATION_PINS_PER_DAY}}` | inspiration-pin share (always takes the peak slots) | default 4 — product + inspiration must sum to `{{PINS_PER_DAY}}` |
-| `{{BLOG_DAYS}}` | | default Tue + Sat |
+| `{{BLOG_POSTS_PER_WEEK}}` | posts/week | default 2, HARD CAP 3 (quality + anti-cannibalization); must match the number of days in `{{BLOG_DAYS}}` |
+| `{{BLOG_DAYS}}` | one run day per post | default Tue + Sat |
 | `{{BLOG_PUBLISH_MODE}}` | | `draft` (recommended start) or `publish` (full auto) |
 | `{{PRODUCT_GATE_MODE}}` | | `propose` (recommended start) or `full-auto` (clean PASS activates) |
 | `{{REDDIT_DAYS}}` | | default Tue/Thu/Sat |
+| `{{REDDIT_DRAFTS_PER_RUN}}` | thread drafts per scout run | default 5 (3–8; the ≤2 product-mention cap per run is a disclosure rail, NOT adjustable) |
+| `{{SOCIAL_POSTS_PER_PLATFORM_PER_DAY}}` | reels / TikToks / Shorts per platform per day | default 2 (1–3; consistency beats volume) |
+| `{{PRODUCTS_PER_NIGHT}}` | drafts the nightly gate processes | default 5 (1–10) |
 | `{{PROHIBITED_EXTRAS}}` | niche-specific additions to the IP gate's red-flag list | e.g. "kids' sleep products" |

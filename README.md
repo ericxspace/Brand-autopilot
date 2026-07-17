@@ -24,7 +24,7 @@ Built and battle-tested on a real Gen Z home-decor store, then genericized so an
 |---|---|---|
 | 00 Ops | Weekly Digest — one page, everything, "decisions waiting on you" | Sat |
 | 01 Pinterest | Daily Content · Weekly Audit | daily + Mon |
-| 02 Blog | Research & Write (one run = research → brief → write → publish → distribute) | 2×/week |
+| 02 Blog | Research & Write (one run = research → brief → write → publish → distribute) | 1–3×/week (default 2) |
 | 03 Reddit | Thread Scout · Posting Reminder — **assist-only, you post manually** | 3×/week |
 | 04 Sales | Weekly Audit — audit → your approval → implement → measure | Mon |
 | 05 Social (short-form) | Daily Content (Drive → captions → scheduler) · Weekly Report | daily + Sun |

@@ -3,7 +3,7 @@
 ROUTINE STANDARD:
 - TRIGGER: every day 20:00 {{TIMEZONE}}, hard stop 20:55 if Group 01 runs at 21:00 (it reads shared state).
 - STRATEGIC GOAL: no IP-risk product ever goes live; every approved product goes live fully optimized.
-- SCOPE: DRAFT-status products in the store, ≤5/night, oldest first. NOT in scope: active/archived products, pricing, sourcing.
+- SCOPE: DRAFT-status products in the store, ≤{{PRODUCTS_PER_NIGHT}}/night (default 5), oldest first. NOT in scope: active/archived products, pricing, sourcing.
 - AUTONOMY: per {{PRODUCT_GATE_MODE}} — `propose` = full gate + enrichment prepared, activation waits for the founder's yes; `full-auto` = a clean PASS activates automatically. A flagged product NEVER activates, silently or otherwise, in either mode.
 - KPIs: processed / passed / channel-excluded / held / failed per night; zero platform policy strikes.
 - HANDOFFS: OUT → activated products feed Groups 01/02/05 content; excluded products sync into 01's block-list the same run; verdict reports read by 00 Digest.

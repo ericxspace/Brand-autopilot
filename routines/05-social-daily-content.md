@@ -20,5 +20,5 @@ STEPS:
    - Instagram Reels: hook line ↵ styling context ↵ "link in bio" CTA ↵ 10–15 hashtags (3 big + 5 mid + 4 niche from the banks). (instagramData: type "REEL"; video required.)
    - TikTok: ≤150 chars conversational hook + 4–6 hashtags. (tiktokData REQUIRES a `title` field — Metricool rejects without it; privacyOption "PUBLIC_TO_EVERYONE".)
    - Claim rules everywhere: conditions/experiences only, no health claims, no designer names as identity, no prices, nothing you can't see.
-5. SCHEDULE one post per platform per asset via {{SCHEDULER}} (media = the Drive file URL; slot = next free slot from the time table, ≥3h ahead, best-day preferred). CAP: ≤2 posts per platform per day; the rest stay `pending`. Note backlog size.
+5. SCHEDULE one post per platform per asset via {{SCHEDULER}} (media = the Drive file URL; slot = next free slot from the time table, ≥3h ahead, best-day preferred). CAP: ≤{{SOCIAL_POSTS_PER_PLATFORM_PER_DAY}} posts per platform per day (default 2; consistency beats volume); the rest stay `pending`. Note backlog size.
 6. VERIFY the queue (no duplicates). Update ledger.json: scheduler IDs, slots, status, and a `features` object per post {hookStyle: question|pov|statement, aesthetic, slotLocal, assetKind, captionLength} — honest values; the Weekly Report joins these with views/completion to learn which caption recipes work.

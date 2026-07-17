@@ -3,7 +3,7 @@
 ROUTINE STANDARD:
 - TRIGGER: {{REDDIT_DAYS}} 19:00 {{TIMEZONE}}.
 - STRATEGIC GOAL: build the founder's credibility on Reddit — trust first, traffic second. The founder posts manually from {{REDDIT_USERNAME}}; **Claude NEVER posts**.
-- SCOPE: find 3–5 live threads per run where the founder's expertise fits; research + draft ready-to-paste replies; max 1/week proactive post idea; track outcomes of past posts. NOT in scope: posting, logging in, voting, DMs, any account automation — undisclosed automated promotion risks a sitewide domain ban and FTC exposure. This rule is absolute.
+- SCOPE: find up to {{REDDIT_DRAFTS_PER_RUN}} live threads per run (default 5; quality bar beats quota — fewer is fine) where the founder's expertise fits; research + draft ready-to-paste replies; max 1/week proactive post idea; track outcomes of past posts. NOT in scope: posting, logging in, voting, DMs, any account automation — undisclosed automated promotion risks a sitewide domain ban and FTC exposure. This rule is absolute.
 - KPIs: comment karma growth, replies/upvotes, profile followers, reddit.com referral sessions (measured by 04/07).
 - GUARDRAILS: no astroturfing, no fake engagement; account-wide value-to-promo ratio ≈9:1; obey each sub's self-promo rules; new/cold accounts do karma-only warm-up first.
 - LOGGING & HONESTY: the chat summary is the run log. Reddit unreachable → say so and stop; never work around it with a login.
