@@ -17,6 +17,7 @@
 ## Platforms & connectors
 | Placeholder | Value | Notes |
 |---|---|---|
+| `{{CLAUDE_PLAN}}` | the USER's own Claude subscription — the engine everything runs on | Max (recommended; Pro = trimmed core — see `docs/plans-and-models.md`) |
 | `{{STORE_PLATFORM}}` | | Shopify (MCP connector) |
 | `{{SCHEDULER}}` | | Metricool — brand/blogId `{{METRICOOL_BRAND_ID}}` |
 | `{{PINTEREST_ACCOUNT}}` | | handle |

@@ -12,6 +12,7 @@ You are installing **Brand Autopilot** (see the kit's README.md for the philosop
 
 ## Step 2 — The interview (batch questions; keep it under ~10)
 Collect every `brand-config.template.md` value:
+- Claude plan: which subscription THEY have (`{{CLAUDE_PLAN}}`) — everything runs on the user's own Claude account, never anyone else's. **Max → install the full system. Pro → propose the trimmed core** (01 Daily at a reduced pins/day, 02 Blog, 00 Digest; skip 03/05/07 or leave them manual) and say why: Pro's usage caps won't absorb the full daily workload. Apply the per-routine model recommendations from `docs/plans-and-models.md` wherever the scheduler supports per-task models; on the desktop app (app-default model only), tell the user to set the default to Sonnet.
 - Brand: name, store domain, niche, aesthetics list, audience, 1–2-line voice, the exact tagline/CTA sign-off sentence (explain: it's repeated verbatim on every pin and blog CTA — repetition builds the brand; it should read like a sentence, not a slogan fragment).
 - Time: the user's timezone AND the audience's peak timezone (slot grids are built on the audience's clock).
 - Assets: Drive folder links for product images (one subfolder per product, ideally with `Pin/` room-scene pin images, `Web/` .webp site images, `Stu/` studio shots, `Review/` customer photos — pin routines read `Pin/`; fall back to the folder root if the user hasn't split them), inspiration images, and short-form video intake. If a folder doesn't exist yet, have the user create it now and paste the link.

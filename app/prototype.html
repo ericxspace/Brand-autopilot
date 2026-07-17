@@ -125,7 +125,9 @@
   .routine-row .grow{flex:1}
   .routine-row h3{font-size:14.5px}
   .routine-row .desc{font-size:13px;color:var(--muted)}
-  .routine-row .cad{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;padding-top:3px}
+  .routine-row .cad{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;padding-top:3px;text-align:right}
+  .mchip{display:inline-block;margin-top:5px;padding:1px 9px;border:1px solid var(--line);border-radius:999px;font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .mchip.opus{border-color:var(--accent);color:var(--accent)}
   .switch{position:relative;width:40px;height:22px;flex:none;margin-top:2px}
   .switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
   .switch .track{position:absolute;inset:0;background:var(--line);border-radius:999px;transition:background .15s}
@@ -252,6 +254,7 @@
         <li>Built for founders, not coders — answer one interview, then read reports.</li>
         <li>Approval-gated: nothing touches your live store without your explicit yes.</li>
         <li>Runs one brand or ten — each brand gets its own config, ledgers, and dashboard.</li>
+        <li>Bring your own Claude — routines run on <b>your</b> Claude subscription (Max recommended), never on ours. No API keys to paste.</li>
       </ul>
     </div>
     <div class="login-card">
@@ -263,6 +266,7 @@
       </button>
       <div class="divider">then</div>
       <p style="font-size:13.5px;margin:0" class="muted">…we'll connect your tools, set up your media library in Google Drive, and switch on your routines. About 15 minutes, once.</p>
+      <p class="trust">✳ <b>You'll need:</b> a Shopify store + your own Claude account. <b>Claude Max recommended</b> — the full 12-routine system is a real daily workload; on Pro we install a trimmed core instead.</p>
       <p class="trust">🔒 In the real app this opens Shopify's own approval page — we never see or store your Shopify password. <b>Prototype:</b> clicking signs you into a demo store.</p>
     </div>
   </div>
@@ -433,15 +437,16 @@
         <p>The core system is on by default. Two add-ons are off until you need them. Every cadence can be changed later with one sentence.</p>
       </div>
       <div class="card" style="margin-top:22px">
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>00 · Weekly Digest</h3><p class="desc">One page every Saturday: what ran, key numbers, and “decisions waiting on you”.</p></div><span class="cad">Sat 09:00</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>01 · Pinterest — Daily Content + Weekly Audit</h3><p class="desc">Fresh pins nightly with anti-spam rails; Monday audit turns results into next week's rules.</p></div><span class="cad">daily 21:00 · Mon 08:30</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>02 · Blog — Research &amp; Write</h3><p class="desc">Research → brief → article → distribution, twice a week. Advice-first: 90/10 value-to-promotion, enforced.</p></div><span class="cad">Tue + Sat 21:00</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>03 · Reddit — Scout + Reminder</h3><p class="desc">Finds threads and drafts honest owner-voiced replies. <b>You</b> post them — it never posts for you.</p></div><span class="cad">Tue/Thu/Sat</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>04 · Sales — Weekly Audit</h3><p class="desc">Store funnel, email health, CRO review → recommendations that wait for your yes.</p></div><span class="cad">Mon 09:00</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>05 · Social — Daily Content + Weekly Report</h3><p class="desc">Drive clips → captions → scheduler for TikTok / Reels / Shorts.</p></div><span class="cad">daily 10:00 · Sun 20:00</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>06 · Products — IP Gate &amp; Enrichment</h3><p class="desc">Every draft product is policy-checked before it can go live. A risky product never activates silently.</p></div><span class="cad">daily 20:00</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox"><span class="track"></span></label><div class="grow"><h3>07 · Analytics — Conversion Intelligence <span class="pill neutral">Add-on</span></h3><p class="desc">Weekly behavior report + experiment ideas, if you run session analytics (PostHog).</p></div><span class="cad">Mon 08:00</span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox"><span class="track"></span></label><div class="grow"><h3>08 · Fulfillment — Daily Order Export <span class="pill neutral">Add-on</span></h3><p class="desc">New paid orders → a price-blind Excel for your fulfillment partner. It never emails anyone — you forward it.</p></div><span class="cad">daily 09:00</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>00 · Weekly Digest</h3><p class="desc">One page every Saturday: what ran, key numbers, and “decisions waiting on you”.</p></div><span class="cad">Sat 09:00<br><span class="mchip sonnet">Sonnet</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>01 · Pinterest — Daily Content + Weekly Audit</h3><p class="desc">Fresh pins nightly with anti-spam rails; Monday audit turns results into next week's rules.</p></div><span class="cad">daily 21:00 · Mon 08:30<br><span class="mchip sonnet">Sonnet</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>02 · Blog — Research &amp; Write</h3><p class="desc">Research → brief → article → distribution, twice a week. Advice-first: 90/10 value-to-promotion, enforced.</p></div><span class="cad">Tue + Sat 21:00<br><span class="mchip sonnet">Sonnet</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>03 · Reddit — Scout + Reminder</h3><p class="desc">Finds threads and drafts honest owner-voiced replies. <b>You</b> post them — it never posts for you.</p></div><span class="cad">Tue/Thu/Sat<br><span class="mchip haiku">Haiku</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>04 · Sales — Weekly Audit</h3><p class="desc">Store funnel, email health, CRO review → recommendations that wait for your yes.</p></div><span class="cad">Mon 09:00<br><span class="mchip opus">Opus</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>05 · Social — Daily Content + Weekly Report</h3><p class="desc">Drive clips → captions → scheduler for TikTok / Reels / Shorts.</p></div><span class="cad">daily 10:00 · Sun 20:00<br><span class="mchip haiku">Haiku+Sonnet</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>06 · Products — IP Gate &amp; Enrichment</h3><p class="desc">Every draft product is policy-checked before it can go live. A risky product never activates silently.</p></div><span class="cad">daily 20:00<br><span class="mchip sonnet">Sonnet</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox"><span class="track"></span></label><div class="grow"><h3>07 · Analytics — Conversion Intelligence <span class="pill neutral">Add-on</span></h3><p class="desc">Weekly behavior report + experiment ideas, if you run session analytics (PostHog).</p></div><span class="cad">Mon 08:00<br><span class="mchip opus">Opus</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox"><span class="track"></span></label><div class="grow"><h3>08 · Fulfillment — Daily Order Export <span class="pill neutral">Add-on</span></h3><p class="desc">New paid orders → a price-blind Excel for your fulfillment partner. It never emails anyone — you forward it.</p></div><span class="cad">daily 09:00<br><span class="mchip haiku">Haiku</span></span></div>
+        <p class="muted" style="font-size:12.5px;margin:12px 0 0">Model tags = the cheapest Claude model that passes each routine’s quality bar (Haiku for mechanics, Sonnet for copy, Opus for weekly judgment) — tuned so your subscription isn’t wasted. Change any of them later.</p>
       </div>
 
       <div class="card" style="margin-top:14px">
@@ -564,12 +569,12 @@
     <!-- ROUTINES -->
     <div class="view" data-view="routines">
       <div class="page-head">
-        <div><h1>Routines</h1><p class="sub">The 12 scheduled tasks that run this brand. Pause anything; edit any cadence by telling the assistant what to change.</p></div>
+        <div><h1>Routines</h1><p class="sub">The 12 scheduled tasks that run this brand — on your Claude subscription. Pause anything; edit any cadence or model by telling the assistant what to change.</p></div>
         <button class="btn small" onclick="toast('In the beta this opens the routine\'s full prompt for editing.')">View prompts</button>
       </div>
       <div class="card rt-wrap">
         <table class="rt" id="rtTable">
-          <thead><tr><th>Routine</th><th>Cadence</th><th>Last run</th><th>Next run</th><th>Status</th><th></th></tr></thead>
+          <thead><tr><th>Routine</th><th>Cadence</th><th>Model</th><th>Last run</th><th>Next run</th><th>Status</th><th></th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -755,18 +760,18 @@
   };
 
   var ROUTINES = [
-    ["00 · Ops — Weekly Digest","Sat 09:00","Sat (3d ago)","Sat 09:00","ok"],
-    ["01 · Pinterest — Daily Content","daily 21:00","yesterday 21:02","today 21:00","ok"],
-    ["01 · Pinterest — Weekly Audit","Mon 08:30","Mon 08:31","Mon 08:30","ok"],
-    ["02 · Blog — Research & Write","Tue + Sat 21:00","Tue 21:04","Sat 21:00","ok"],
-    ["03 · Reddit — Thread Scout","Tue/Thu/Sat 19:00","Thu 19:01","Sat 19:00","ok"],
-    ["03 · Reddit — Posting Reminder","Tue/Thu/Sat 22:00","Thu 22:00","Sat 22:00","ok"],
-    ["04 · Sales — Weekly Audit","Mon 09:00","Mon 09:02","Mon 09:00","ok"],
-    ["05 · Social — Daily Content","daily 10:00","today 10:01","tomorrow 10:00","ok"],
-    ["05 · Social — Weekly Report","Sun 20:00","Sun 20:00","Sun 20:00","ok"],
-    ["06 · Products — IP Gate","daily 20:00","yesterday 20:00","today 20:00","ok"],
-    ["07 · Analytics — Conversion Intel","Mon 08:00","Mon 08:01","Mon 08:00","ok"],
-    ["08 · Fulfillment — Order Export","daily 09:00","today 09:00","tomorrow 09:00","ok"]
+    ["00 · Ops — Weekly Digest","Sat 09:00","Sonnet","Sat (3d ago)","Sat 09:00","ok"],
+    ["01 · Pinterest — Daily Content","daily 21:00","Sonnet","yesterday 21:02","today 21:00","ok"],
+    ["01 · Pinterest — Weekly Audit","Mon 08:30","Sonnet","Mon 08:31","Mon 08:30","ok"],
+    ["02 · Blog — Research & Write","Tue + Sat 21:00","Sonnet","Tue 21:04","Sat 21:00","ok"],
+    ["03 · Reddit — Thread Scout","Tue/Thu/Sat 19:00","Haiku","Thu 19:01","Sat 19:00","ok"],
+    ["03 · Reddit — Posting Reminder","Tue/Thu/Sat 22:00","Haiku","Thu 22:00","Sat 22:00","ok"],
+    ["04 · Sales — Weekly Audit","Mon 09:00","Opus","Mon 09:02","Mon 09:00","ok"],
+    ["05 · Social — Daily Content","daily 10:00","Haiku","today 10:01","tomorrow 10:00","ok"],
+    ["05 · Social — Weekly Report","Sun 20:00","Sonnet","Sun 20:00","Sun 20:00","ok"],
+    ["06 · Products — IP Gate","daily 20:00","Sonnet","yesterday 20:00","today 20:00","ok"],
+    ["07 · Analytics — Conversion Intel","Mon 08:00","Opus","Mon 08:01","Mon 08:00","ok"],
+    ["08 · Fulfillment — Order Export","daily 09:00","Haiku","today 09:00","tomorrow 09:00","ok"]
   ];
 
   var currentBrand = "fern";
@@ -869,7 +874,8 @@
     ROUTINES.forEach(function(r){
       var tr = document.createElement("tr");
       tr.innerHTML = '<td><span class="status-dot ok"></span><b>'+r[0]+'</b></td>'+
-        '<td class="mono">'+r[1]+'</td><td class="mono muted">'+r[2]+'</td><td class="mono">'+r[3]+'</td>'+
+        '<td class="mono">'+r[1]+'</td><td><span class="mchip '+r[2].toLowerCase()+'">'+r[2]+'</span></td>'+
+        '<td class="mono muted">'+r[3]+'</td><td class="mono">'+r[4]+'</td>'+
         '<td><span class="pill ok">on schedule</span></td><td></td>';
       var td = tr.lastElementChild;
       var btn = document.createElement("button"); btn.className = "btn small ghost"; btn.textContent = "Pause";

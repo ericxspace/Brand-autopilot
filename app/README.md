@@ -29,7 +29,7 @@ The safety rails are product features, not implementation details: approval-gate
 
 ## Path to a downloadable app
 
-The goal: a user with a **Claude Pro/Max account** downloads one thing, fills in the wizard, and their routines run. The recommended shape, in order:
+The goal: a user with **their own Claude account** (Max recommended — see [docs/plans-and-models.md](../docs/plans-and-models.md)) downloads one thing, fills in the wizard, and their routines run on *their* subscription — never on the author's account or keys. The recommended shape, in order:
 
 1. **Today (zero build):** download this repo → open `app/prototype.html` to see the experience → run the `/brand-autopilot-setup` skill in Claude (desktop app or Claude Code) to actually install the routines. The user's own Claude subscription is the runtime and the auth — nothing to host, no keys to manage.
 2. **Phase 2 — local app (recommended):** a small desktop app (Tauri; a few-MB installer) that renders this exact wizard UI and, under the hood, drives the **Claude Agent SDK** through the user's existing Claude Code sign-in. The wizard writes `brand-config.md`, instantiates the templates in `routines/`, and registers them as scheduled tasks. Prerequisite stays honest: the user installs Claude Code / the Claude desktop app once and signs in with their own account — the app never handles Anthropic credentials itself.

@@ -16,6 +16,7 @@ Built and battle-tested on a real Gen Z home-decor store, then genericized so an
 | `tools/` | `build_fulfillment_xlsx.py` — the price-blind Excel builder Group 08 uses (column allowlist + refuses to run if a money field reaches it) |
 | `app/` | A clickable **prototype of the Brand Autopilot app** (sign in with Shopify → setup wizard → multi-brand dashboard) — open `app/prototype.html` in any browser; fictional data |
 | `brand-config.template.md` | The single config sheet the setup interview fills in |
+| `docs/plans-and-models.md` | Which Claude plan you need + the recommended model per routine (token-efficiency guide) |
 
 ### The 9 groups (12 recurring routines)
 
@@ -37,7 +38,8 @@ Monday order matters when 07 is installed: 07 analytics (08:00) → 01 audit (08
 
 ## Requirements
 
-- **Claude desktop app** (Pro or Max) with scheduled tasks. Routines run while the app is open — leave it running in the hours your routines fire, or use Claude's cloud scheduled agents instead (the templates are plain prompts; they work with any scheduler that runs Claude).
+- **Your own Claude account — this is the engine.** Every routine runs on the *user's* Claude subscription (nothing is hosted, no shared account, no API keys to paste). **Claude Max is recommended**; Pro fits only a trimmed core system. Per-plan guidance + the recommended model for each routine (Haiku for mechanics, Sonnet for copy, Opus for weekly judgment): **[docs/plans-and-models.md](docs/plans-and-models.md)**.
+- **Claude desktop app** with scheduled tasks. Routines run while the app is open — leave it running in the hours your routines fire, or use Claude's cloud scheduled agents instead (the templates are plain prompts; they work with any scheduler that runs Claude).
 - **Connectors** (add in claude.ai → Settings → Connectors): your store platform (Shopify MCP recommended), **Metricool** (the publishing + analytics rail — free tier works to start), **Google Drive** (asset intake), **Notion** (reports & queues), web search. Optional: **Klaviyo** (email audit in Group 04), **Canva** (blog covers), **PostHog** or similar session analytics (Group 07), Python + `openpyxl` (Group 08's Excel builder).
 - A store with products, and product/lifestyle images in a Google Drive folder.
 
@@ -82,7 +84,8 @@ Field-tested defaults are baked in (e.g. on the source brand, room-scene product
 
 - **My main channel isn't Pinterest.** Group 01's mechanics (folder rotation, dedupe ledger, hook titles, slot grid, feature ledger) adapt to any visual platform — tell the setup skill and it will adapt the template.
 - **No Metricool?** Every publishing routine falls back to a ready-to-paste scheduling sheet. But the analytics joins are much weaker without it — the free tier is worth it.
-- **What does it cost to run?** A Claude Pro/Max subscription + free connector tiers. The system was designed under a ~$1k/month total-burn constraint.
+- **What does it cost to run?** Your own Claude subscription (Max recommended; Pro runs a trimmed core) + free connector tiers. The system was designed under a ~$1k/month total-burn constraint. Model-per-routine guidance to avoid wasting tokens: [docs/plans-and-models.md](docs/plans-and-models.md).
+- **Does it use the author's Claude account or API key?** No — never. The kit is prompts + templates only; whoever installs it supplies the Claude account it runs on.
 - **Where do reports land?** Notion pages per routine + local ledger files; the Saturday digest is one page with a "decisions waiting on you" list.
 - **Can I change cadences?** Yes — every routine's trigger is one line; tell Claude to reschedule. Keep the evening chain order if you use Groups 06 + 01 together (products gate runs before the pin routine reads shared state), and the Monday order if you use Group 07 (analytics → Pinterest audit → sales audit).
 - **I use a fulfillment partner — can they see my prices?** No. Group 08's export is price-blind by construction: the query carries no money fields, the builder script emits a fixed column allowlist, and it refuses to run if a money-bearing key ever reaches it. The routine also never sends the file — you forward it yourself.

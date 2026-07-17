@@ -4,22 +4,24 @@ Twelve templates, nine groups (00–08). Each is a complete scheduled-task promp
 
 Two templates co-read the shared **`playbooks/`** (02 Blog and 04 Sales): `blog-editorial-standard.md` (the 90/10 subtle-sell rule + mandatory pre-delivery gate) and `multi-engine-seo.md` (Bing/Copilot write-time rules + the weekly/monthly organic-search ops checklist). Keep the playbook files wherever your instantiated prompts can read them — the setup skill resolves the paths.
 
-## Schedule (defaults, user-local time)
+## Schedule (defaults, user-local time) + recommended model
 
-| # | Routine | Default trigger |
-|---|---|---|
-| 00 | Ops — Weekly Digest | Sat 09:00 |
-| 01 | Pinterest — Daily Content | daily 21:00 |
-| 01 | Pinterest — Weekly Audit | Mon 08:30 |
-| 02 | Blog — Research & Write | Tue + Sat 21:00 |
-| 03 | Reddit — Thread Scout | Tue/Thu/Sat 19:00 |
-| 03 | Reddit — Posting Reminder | Tue/Thu/Sat 22:00 |
-| 04 | Sales — Weekly Audit | Mon 09:00 |
-| 05 | Social — Daily Content | daily 10:00 |
-| 05 | Social — Weekly Report | Sun 20:00 |
-| 06 | Products — IP Gate & Enrichment | daily 20:00 |
-| 07 | Analytics — Conversion Intelligence *(optional)* | Mon 08:00 |
-| 08 | Fulfillment — Daily Order Export *(optional)* | daily 09:00 |
+Everything runs on **the installing user's own Claude account**. Model picks follow "cheapest model that passes the quality bar" — full reasoning + plan guidance in [`docs/plans-and-models.md`](../docs/plans-and-models.md). (Desktop-app scheduled tasks run on the app-default model; the column applies directly where your scheduler supports per-task models.)
+
+| # | Routine | Default trigger | Model |
+|---|---|---|---|
+| 00 | Ops — Weekly Digest | Sat 09:00 | Sonnet |
+| 01 | Pinterest — Daily Content | daily 21:00 | Sonnet |
+| 01 | Pinterest — Weekly Audit | Mon 08:30 | Sonnet (Opus for deep dives) |
+| 02 | Blog — Research & Write | Tue + Sat 21:00 | Sonnet |
+| 03 | Reddit — Thread Scout | Tue/Thu/Sat 19:00 | Haiku |
+| 03 | Reddit — Posting Reminder | Tue/Thu/Sat 22:00 | Haiku |
+| 04 | Sales — Weekly Audit | Mon 09:00 | Opus (Sonnet if budget-tight) |
+| 05 | Social — Daily Content | daily 10:00 | Haiku |
+| 05 | Social — Weekly Report | Sun 20:00 | Sonnet |
+| 06 | Products — IP Gate & Enrichment | daily 20:00 | Sonnet (Opus on UNCERTAIN) |
+| 07 | Analytics — Conversion Intelligence *(optional)* | Mon 08:00 | Opus |
+| 08 | Fulfillment — Daily Order Export *(optional)* | daily 09:00 | Haiku |
 
 **Evening chain (keep the order):** 06 products (20:00) finishes before 01 pins (21:00) so newly activated products can enter the same night's rotation.
 
