@@ -28,7 +28,7 @@
 ## Assets (Google Drive)
 | Placeholder | Value | Notes |
 |---|---|---|
-| `{{DRIVE_PRODUCT_FOLDER_ID}}` | | parent of per-product image subfolders (one folder per product, e.g. `P0001`) |
+| `{{DRIVE_PRODUCT_FOLDER_ID}}` | | parent of per-product subfolders (`P0001`, `P0002`…), each ideally holding `Pin/` (room-scene pin images), `Web/` (.webp site images), `Stu/` (.webp studio shots), `Review/` (real customer photos) — routines read only the set they need (pins from `Pin/`) |
 | `{{DRIVE_INSPIRATION_FOLDER_ID}}` | | lifestyle/room-scene image pool |
 | `{{DRIVE_SOCIAL_INTAKE_FOLDER_ID}}` | | where you drop short-form videos |
 

@@ -14,7 +14,7 @@ You are installing **Brand Autopilot** (see the kit's README.md for the philosop
 Collect every `brand-config.template.md` value:
 - Brand: name, store domain, niche, aesthetics list, audience, 1–2-line voice, the exact tagline/CTA sign-off sentence (explain: it's repeated verbatim on every pin and blog CTA — repetition builds the brand; it should read like a sentence, not a slogan fragment).
 - Time: the user's timezone AND the audience's peak timezone (slot grids are built on the audience's clock).
-- Assets: Drive folder links for product images (one subfolder per product), inspiration images, and short-form video intake. If a folder doesn't exist yet, have the user create it now and paste the link.
+- Assets: Drive folder links for product images (one subfolder per product, ideally with `Pin/` room-scene pin images, `Web/` .webp site images, `Stu/` studio shots, `Review/` customer photos — pin routines read `Pin/`; fall back to the folder root if the user hasn't split them), inspiration images, and short-form video intake. If a folder doesn't exist yet, have the user create it now and paste the link.
 - Outputs: create the four Notion parent pages yourself (pin audits, weekly reports, reddit queue, digest) and record their IDs; create the local `{{OPS_FOLDER}}` with empty ledger files.
 - Autonomy choices (explain the trade-offs plainly): `{{BLOG_PUBLISH_MODE}}` draft vs publish; `{{PRODUCT_GATE_MODE}}` propose vs full-auto. **Recommend `draft` + `propose` for the first 2 weeks.**
 - Cadences: accept the defaults unless the user objects; keep total recurring tasks ≤10.

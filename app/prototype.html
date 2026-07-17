@@ -109,6 +109,8 @@
   .conn .why{font-size:13.5px;color:var(--muted)}
   .conn .fallback{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
   .conn .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+  .conn-browse{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:4px;border:1.5px dashed var(--line);border-radius:var(--r);padding:16px;font-weight:600;color:var(--muted)}
+  .conn-browse:hover{border-color:var(--accent);color:var(--accent)}
   .tree{font-family:var(--mono);font-size:13.5px;line-height:1.9;background:var(--panel2);border-radius:8px;padding:16px 18px;overflow-x:auto;white-space:pre}
   .hint{display:flex;gap:10px;background:var(--accent-soft);border-radius:8px;padding:12px 14px;font-size:13.5px;margin-top:14px}
   .hint b{color:var(--accent)}
@@ -186,6 +188,12 @@
   .chan-stat .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600}
   .chan-stat .d{font-size:12px;font-weight:600;margin-left:8px}
   .chan-stat .d.up{color:var(--ok)} .chan-stat .d.down{color:var(--crit)}
+  .chan-row{display:grid;grid-template-columns:88px 1fr 66px 74px;gap:10px;align-items:center;padding:5px 0;font-size:13px}
+  .chan-row .bar{height:8px;border-radius:99px;background:var(--panel2);overflow:hidden}
+  .chan-row .bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+  .chan-row .rev{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+  .chan-row .dl{font-size:11.5px;font-weight:600;text-align:right;color:var(--muted)}
+  .chan-row .dl.up{color:var(--ok)} .chan-row .dl.down{color:var(--crit)}
   .digest-quote{font-size:13.5px;border-left:3px solid var(--line);padding:2px 0 2px 14px;color:var(--muted)}
   .digest-quote b{color:var(--ink)}
 
@@ -326,6 +334,31 @@
           <p class="fallback">Without it: the audit skips the email section.</p>
           <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'klaviyo')">Connect</button></div>
         </div>
+        <div class="card conn" data-conn="canva">
+          <div class="top"><h3>Canva</h3><span class="pill neutral">Optional</span></div>
+          <p class="why">Blog covers and social graphics generated from your own locked template — the design stays consistent; only the image and title change.</p>
+          <p class="fallback">Without it: posts ship with your Drive images only.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'canva')">Connect</button></div>
+        </div>
+        <div class="card conn" data-conn="gmail">
+          <div class="top"><h3>Gmail</h3><span class="pill neutral">Optional</span></div>
+          <p class="why">Inbox triage: drafts replies to customers and suppliers, and flags what actually needs you.</p>
+          <p class="fallback">Nothing is ever sent for you — drafts wait in your Drafts folder either way.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'gmail')">Connect</button></div>
+        </div>
+        <div class="card conn" data-conn="chrome">
+          <div class="top"><h3>Claude in Chrome</h3><span class="pill neutral">Optional</span></div>
+          <p class="why">Lets a routine work inside your own signed-in browser for the few tasks that have no API — visible on screen, never hidden.</p>
+          <p class="fallback">Without it: those steps land on your to-do list instead.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'chrome')">Connect</button></div>
+        </div>
+        <div class="card conn" data-conn="posthog">
+          <div class="top"><h3>PostHog</h3><span class="pill neutral">Add-on</span></div>
+          <p class="why">Session analytics that unlock the weekly <b>Conversion Intelligence</b> report: funnel drop-offs, rage clicks, replay links. Free tier is enough.</p>
+          <p class="fallback">Our suggestion: connect it once you pass ~500 sessions/week — below that, weekly conversion analysis is mostly noise.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'posthog')">Connect</button></div>
+        </div>
+        <button class="conn-browse" onclick="toast('In the real app this opens Claude\'s connector directory — Shopify, Slack, Figma, and hundreds more.')">＋ Browse all connectors<span class="muted" style="font-size:12.5px;font-weight:400">Anything in Claude's connector directory can plug into your routines.</span></button>
       </div>
       <div class="hint"><span>💡</span><span><b>How connecting works in the real app:</b> each button opens that tool's own sign-in page and asks for the minimum access. You approve it there — Brand Autopilot never sees your passwords.</span></div>
       <div class="wizard-nav">
@@ -341,11 +374,16 @@
         <p>Your images stay in your own Google Drive — you keep ownership. Brand Autopilot works from three folders, and can create them for you right now:</p>
       </div>
       <div class="tree" style="margin-top:22px">📁 Brand Autopilot / Paper Meridian
- ├─ 📁 Products      one subfolder per product (P0001, P0002 …)
- │    └─ 📁 P0001    3+ images of THAT product styled inside a real room
- ├─ 📁 Inspiration   room scenes &amp; moodboards — no product required
- └─ 📁 Video intake  drop short clips here for TikTok / Reels / Shorts</div>
-      <div class="hint"><span>📸</span><span><b>What makes an image work:</b> show the product <em>inside a styled room</em>, taking up 15–35% of the frame. On the brand this system was built on, room-scene images out-performed plain close-ups roughly <b>50×</b>. Never upload the same image twice — the routines enforce this with a dedupe ledger.</span></div>
+ ├─ 📁 Products          one subfolder per product (P0001, P0002 …)
+ │    └─ 📁 P0001
+ │         ├─ 📁 Pin     room-scene images for Pinterest — the product styled in a real space
+ │         ├─ 📁 Web     .webp product images for your website's product page
+ │         ├─ 📁 Stu     .webp studio shots — white or plain color background
+ │         └─ 📁 Review  real customer photos (.webp) — social proof for blog &amp; email
+ ├─ 📁 Inspiration       room scenes &amp; moodboards — no product required
+ └─ 📁 Video intake      drop short clips here for TikTok / Reels / Shorts</div>
+      <div class="hint"><span>🗂</span><span><b>Each routine reads only the folder it needs:</b> pins come from <b>Pin</b>, your product-page gallery from <b>Web</b>, catalog &amp; ads from <b>Stu</b>, trust content from <b>Review</b>. Mixing them up is the #1 beginner mistake — a studio shot posted as a pin underperforms badly.</span></div>
+      <div class="hint"><span>📸</span><span><b>What makes a Pin image work:</b> show the product <em>inside a styled room</em>, taking up 15–35% of the frame. On the brand this system was built on, room-scene images out-performed plain close-ups roughly <b>50×</b>. Never upload the same image twice — the routines enforce this with a dedupe ledger.</span></div>
       <div style="margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <button class="btn primary" id="mkFolders" onclick="makeFolders()">Create these folders in my Drive</button>
         <span class="muted" style="font-size:13px" id="mkFoldersNote">One click — we'll drop a “what goes here” note inside each folder.</span>
@@ -366,14 +404,10 @@
         <div class="field"><label for="f-name">Brand name</label><input id="f-name" value="Paper Meridian"></div>
         <div class="field"><label for="f-niche">Niche — one line</label><input id="f-niche" value="Small-batch stationery & desk objects for people who love paper"></div>
         <div class="field">
-          <label>Aesthetics <span class="muted" style="font-weight:400">(drives hashtags &amp; copy matching — tap to toggle)</span></label>
-          <div class="chips">
-            <button class="chip on" onclick="this.classList.toggle('on')">analog revival</button>
-            <button class="chip on" onclick="this.classList.toggle('on')">warm minimal</button>
-            <button class="chip on" onclick="this.classList.toggle('on')">studio clutter</button>
-            <button class="chip" onclick="this.classList.toggle('on')">academia</button>
-            <button class="chip" onclick="this.classList.toggle('on')">japandi</button>
-          </div>
+          <label for="f-aes">Aesthetics — in your own words</label>
+          <input id="f-aes" placeholder="type a style and press Enter — e.g. cottagecore, brutalist, y2k…">
+          <div class="chips" id="aesChips" aria-live="polite"></div>
+          <p class="help">No preset list — only you know your brand's look. These words drive hashtag banks and copy matching. Tap a tag to remove it.</p>
         </div>
         <div class="field"><label for="f-voice">Voice — 1–2 lines</label><textarea id="f-voice" rows="2">Quietly enthusiastic, precise, a little bookish. Never corporate, never shouty.</textarea></div>
         <div class="field">
@@ -464,7 +498,7 @@
     <button class="nav-btn" data-view="routines" onclick="goView('routines')"><span class="ico">↻</span>Routines</button>
     <button class="nav-btn" data-view="brands" onclick="goView('brands')"><span class="ico">▦</span>Brands</button>
     <button class="nav-btn" onclick="toast('Settings ships in the beta — connections, config, and billing will live here.')"><span class="ico">⚙</span>Settings</button>
-    <div class="foot">Prototype v0.1 · fictional data<br>Feedback → Eric</div>
+    <div class="foot">Prototype v0.2 · fictional data<br>Feedback → Eric</div>
   </aside>
 
   <main class="main">
@@ -484,6 +518,11 @@
 
       <div class="dash-grid">
         <div class="dash-col">
+          <div class="card">
+            <h2>Sales by channel <span class="pill neutral mono">7d</span></h2>
+            <div id="chanList"></div>
+            <p class="muted" style="font-size:12px;margin:10px 0 0">From your store's order attribution (UTM + referrer). “Agentic” = purchases where an AI assistant (ChatGPT, Perplexity, Copilot) did the browsing for the customer.</p>
+          </div>
           <div class="card">
             <h2>Today's schedule <span class="pill neutral mono" id="todayLabel">Fri</span></h2>
             <div id="schedList"></div>
@@ -659,6 +698,7 @@
       email:{rpr:["$0.42","▲ $0.06","up"], share:"31%", list:"+58"},
       blog:{posts:"2", ses:["640","▲ 41%","up"], top:"“Cozy corners under $50”"},
       digest:"<b>11 of 12 routines ran.</b> Top win: room-scene pins +31% saves. Top issue: 2 inspiration folders nearly empty — asset runway 9 days. 3 decisions open below.",
+      channels:[["Pinterest","$486",38,"▲ 24%","up"],["Direct","$312",24,"▲ 6%","up"],["Email","$198",15,"▲ 11%","up"],["Blog","$141",11,"▲ 41%","up"],["Google","$77",6,"— flat","flat"],["Agentic","$45",4,"new","up"],["Social","$25",2,"▼ 8%","down"]],
       decisions:[
         {src:"04 · Sales", txt:"Move the “Winter Hearth” trio to the homepage hero — it converts 2.3× the current hero product."},
         {src:"06 · Products", txt:"“Alpine Lodge” lantern held as UNCERTAIN — the shade resembles a designer original. Approve site-only, or keep held?"},
@@ -680,6 +720,7 @@
       email:{rpr:["$0.31","— flat","up"], share:"24%", list:"+21"},
       blog:{posts:"1", ses:["287","▲ 12%","up"], top:"“Wabi-sabi for small kitchens”"},
       digest:"<b>10 of 12 routines ran.</b> Metricool token expired Thursday — pins fell back to manual sheets. Reconnect to resume auto-scheduling.",
+      channels:[["Direct","$260",35,"▲ 3%","up"],["Pinterest","$233",31,"▼ 12%","down"],["Email","$94",13,"— flat","flat"],["Google","$73",10,"▲ 9%","up"],["Blog","$52",7,"▲ 15%","up"],["Agentic","$30",4,"new","up"],["Social","$0",0,"—","flat"]],
       decisions:[
         {src:"System", txt:"Metricool disconnected since Thu — routines are writing manual scheduling sheets. Reconnect in Settings."},
         {src:"04 · Sales", txt:"Free-shipping threshold test ($60) is 2 weeks old: +11% AOV. Keep it?"}
@@ -700,6 +741,7 @@
       email:{rpr:["—","no sends yet","up"], share:"—", list:"+9"},
       blog:{posts:"1", ses:["58","first week","up"], top:"“Three desk objects that earn their place”"},
       digest:"<b>First digest arrives Saturday.</b> Baseline mode: routines collect two clean weeks of data before proposing changes.",
+      channels:[["Pinterest","$58",60,"first week","up"],["Direct","$38",40,"first week","up"],["Google","$0",0,"—","flat"],["Email","$0",0,"no sends yet","flat"],["Agentic","$0",0,"—","flat"]],
       decisions:[
         {src:"01 · Pinterest", txt:"Products folder has images for 9 of 24 products — drop photos for the rest to unlock full rotation."}
       ],
@@ -767,6 +809,15 @@
     $("#b-posts").textContent = b.blog.posts; setStat("b","ses",b.blog.ses); $("#b-top").textContent = b.blog.top;
     $("#digestQuote").innerHTML = b.digest;
 
+    /* sales by channel */
+    var cl = $("#chanList"); cl.innerHTML = "";
+    b.channels.forEach(function(c){
+      var row = document.createElement("div"); row.className = "chan-row";
+      row.innerHTML = '<span>'+c[0]+'</span><span class="bar"><i style="width:'+c[2]+'%"></i></span>'+
+        '<span class="rev">'+c[1]+'</span><span class="dl '+c[4]+'">'+c[3]+'</span>';
+      cl.appendChild(row);
+    });
+
     /* schedule */
     var sl = $("#schedList"); sl.innerHTML = "";
     b.sched.forEach(function(r){
@@ -831,6 +882,33 @@
       });
       td.appendChild(btn);
       tb.appendChild(tr);
+    });
+  })();
+
+  /* aesthetics: free-text chips — the user types their own style words */
+  (function(){
+    var input = $("#f-aes"), box = $("#aesChips");
+    function addChip(txt){
+      var exists = $$(".chip", box).some(function(c){ return c.dataset.v === txt.toLowerCase(); });
+      if (exists) return;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "chip on"; b.dataset.v = txt.toLowerCase();
+      b.innerHTML = txt + ' <span aria-hidden="true" style="opacity:.65">✕</span>';
+      b.setAttribute("aria-label", "Remove " + txt);
+      b.addEventListener("click", function(){ b.remove(); });
+      box.appendChild(b);
+    }
+    ["analog revival","warm minimal","studio clutter"].forEach(addChip); // demo brand's own words
+    input.addEventListener("keydown", function(e){
+      if (e.key === "Enter" || e.key === ",") {
+        e.preventDefault();
+        var v = input.value.replace(/,/g, "").trim();
+        if (v) { addChip(v); input.value = ""; }
+      }
+    });
+    input.addEventListener("blur", function(){
+      var v = input.value.replace(/,/g, "").trim();
+      if (v) { addChip(v); input.value = ""; }
     });
   })();
 
