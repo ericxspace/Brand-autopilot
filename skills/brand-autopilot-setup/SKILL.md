@@ -1,6 +1,6 @@
 ---
 name: brand-autopilot-setup
-description: Set up the Brand Autopilot routine system for a small e-commerce brand — interview the user, fill brand-config.md, instantiate the 10 routine templates with their values, create the scheduled tasks in their timezone, and run safe draft-mode tests. Use when the user says "set up brand autopilot", "install the brand routines", or points at this kit.
+description: Set up the Brand Autopilot routine system for a small e-commerce brand — interview the user, fill brand-config.md, instantiate the 12 routine templates (9 groups, 00–08) with their values, create the scheduled tasks in their timezone, and run safe draft-mode tests. Use when the user says "set up brand autopilot", "install the brand routines", or points at this kit.
 ---
 
 You are installing **Brand Autopilot** (see the kit's README.md for the philosophy). The user is likely a no-coder founder. Your job: one interview → a fully running, safety-railed routine system tailored to their brand. Never skip the approval gate at the end.
@@ -20,6 +20,7 @@ Collect every `brand-config.template.md` value:
 - Cadences: accept the defaults unless the user objects; keep total recurring tasks ≤10.
 - Reddit: their own username (read-only outcome tracking), and confirm they understand Claude never posts for them.
 - Niche red-flags: ask what product categories in THEIR niche are risky on shopping platforms; add to `{{PROHIBITED_EXTRAS}}`.
+- Optional groups: 07 Analytics only if they run session analytics (PostHog or similar — offer to help set the free tier up separately); 08 Fulfillment only if they forward orders to a fulfillment partner as a spreadsheet (collect `{{FULFILLMENT_OUTPUT_FOLDER}}`; copy `tools/build_fulfillment_xlsx.py` into `{{OPS_FOLDER}}/fulfillment/` and confirm Python + openpyxl run). Skip both by default — they're add-ons, not the core.
 
 Write the completed `brand-config.md` next to the template and show it for confirmation.
 
@@ -28,7 +29,7 @@ For each template in `routines/` (skip groups the user opted out of):
 1. Replace every `{{PLACEHOLDER}}` from brand-config.md. Adapt sections for missing connectors using the template's written fallbacks — never leave a dangling reference to a connector the user lacks. Copy `playbooks/` into the user's project (e.g. next to `{{OPS_FOLDER}}`) and rewrite each template's `playbooks/...` references to that absolute path — scheduled prompts must be able to read them at run time. Fill the `{{TAGLINE_CTA}}` placeholder inside `playbooks/blog-editorial-standard.md` too.
 2. If the user's primary visual channel isn't Pinterest, adapt Group 01 mechanically (same rotation/dedupe/hook-title/slot-grid/feature-ledger mechanics; platform-specific push calls per the scheduler's docs).
 3. Create each as a scheduled task (cron in the USER's local timezone; convert the template's default times). Name = the template's `0X · Group — Function (cadence)` line. If scheduled tasks aren't available in this environment, output each finished prompt in a copy-paste block with its cron line and tell the user how to add it (Claude app → scheduled tasks, or cloud scheduled agents).
-4. Respect the evening chain: if Groups 06 and 01 are both installed, 06 must finish before 01 fires (default: 06 at 20:00, 01 at 21:00 local).
+4. Respect the evening chain: if Groups 06 and 01 are both installed, 06 must finish before 01 fires (default: 06 at 20:00, 01 at 21:00 local). Respect the Monday chain if Group 07 is installed: 07 analytics → 01 weekly audit → 04 sales audit (defaults 08:00 / 08:30 / 09:00) — 04 consumes both handoffs.
 
 ## Step 4 — Safe test runs (MANDATORY — never skip)
 - Run each content routine once in **draft mode** (scheduler drafts, blog draft, gate propose-only) regardless of the chosen autonomy settings.
@@ -40,4 +41,4 @@ For each template in `routines/` (skip groups the user opted out of):
 Deliver a short go-live note: the schedule table, where each report lands, the 3 things the user must do themselves (drop assets in Drive, post the Reddit queue manually, answer the approval items in the Monday sales audit + Saturday digest), and the reminder that routines fire only while the Claude desktop app is open (unless they used cloud scheduling).
 
 ## Rails
-- Ask before anything outward-facing beyond the draft tests. No fabricated data anywhere, including in samples. Keep the user's total recurring tasks ≤10. If the user asks for a channel this kit doesn't cover, build it as an 8th group following `routines/README.md`'s standard block — don't bolt it onto an existing routine.
+- Ask before anything outward-facing beyond the draft tests. No fabricated data anywhere, including in samples. Keep the user's total recurring tasks ≤12. If the user asks for a channel this kit doesn't cover, build it as a new group following `routines/README.md`'s standard block — don't bolt it onto an existing routine.

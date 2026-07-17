@@ -7,7 +7,7 @@ ROUTINE STANDARD:
 - CADENCE: 2 posts/week, HARD CAP 3.
 - AUTONOMY: per {{BLOG_PUBLISH_MODE}} — `draft` = create unpublished + notify the founder; `publish` = live + auto-distribute. Everything else autonomous.
 - KPIs: organic sessions, social referral sessions, keywords ranked (no Search Console connector → "check manually", never fabricate), blog-assisted conversions (utm_source=blog).
-- HANDOFFS: IN ← blog-learnings.md (written Mondays by 01 Weekly Audit — pin-derived demand signals are the strongest input, weight above generic research). OUT → distribution-queue.md (2nd pin concept for 01; FB/IG caption drafts for the founder); topic ledger read by 07 Digest.
+- HANDOFFS: IN ← blog-learnings.md (written Mondays by 01 Weekly Audit — pin-derived demand signals are the strongest input, weight above generic research). OUT → distribution-queue.md (2nd pin concept for 01; FB/IG caption drafts for the founder); topic ledger read by 00 Digest.
 - LOGGING & HONESTY: write a 3–5-line run summary into the week-plan ledger + chat. Never invent statistics, reviews, or product links.
 
 MANDATORY PRE-READS: `playbooks/blog-editorial-standard.md` (the 90/10 subtle-sell rule + pre-delivery gate — governs every article) and `playbooks/multi-engine-seo.md` (Bing/Copilot write-time rules).

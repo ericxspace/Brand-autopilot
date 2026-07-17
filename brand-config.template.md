@@ -23,6 +23,7 @@
 | `{{SOCIAL_NETWORKS}}` | | tiktok, instagram, youtube |
 | `{{REDDIT_USERNAME}}` | the founder's own account — Claude only ever READS its public feed | u/yourhandle |
 | `{{EMAIL_PLATFORM}}` | optional | Klaviyo account id |
+| `{{ANALYTICS_TOOL}}` | optional — only if installing Group 07 | PostHog project id + host (read-only API key kept in a local env file, never in this config) |
 
 ## Assets (Google Drive)
 | Placeholder | Value | Notes |
@@ -39,6 +40,7 @@
 | `{{NOTION_REDDIT_QUEUE_PARENT}}` | page ID | reddit queue |
 | `{{NOTION_DIGEST_PARENT}}` | page ID | Saturday digest |
 | `{{OPS_FOLDER}}` | local path | ledgers & logs, e.g. `<project>/ops/` |
+| `{{FULFILLMENT_OUTPUT_FOLDER}}` | optional — only if installing Group 08 | where the daily price-blind order .xlsx lands, e.g. `Desktop/FULFILLMENT` |
 
 ## Cadence & autonomy choices
 | Placeholder | Value | Options |

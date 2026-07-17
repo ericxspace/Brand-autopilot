@@ -7,7 +7,7 @@ ROUTINE STANDARD:
 - MIX: 6 fresh Product Pins + 4 fresh Inspiration Pins + 0 repins (fresh pins drive 90%+ of Pinterest traffic; repeated content is the #1 distribution-collapse risk). State the mix in every run summary.
 - AUTONOMY: fully autonomous (content, image selection, scheduling, ledger writes). Never touches the store or theme.
 - KPIs (measured by the Weekly Audit): outbound clicks (primary), outbound CTR 1.5–3%, save rate 1–2%, impressions, follower growth.
-- HANDOFFS: IN ← 02 Blog's distribution-queue.md; IN ← weekly-learnings.md from 01 Weekly Audit; IN ← products activated by 06. OUT → audit pages + ledgers read by 01 Weekly Audit and 07 Digest.
+- HANDOFFS: IN ← 02 Blog's distribution-queue.md; IN ← weekly-learnings.md from 01 Weekly Audit; IN ← products activated by 06. OUT → audit pages + ledgers read by 01 Weekly Audit and 00 Digest.
 - LOGGING & HONESTY: end with the audit page (Notion parent {{NOTION_PIN_AUDIT_PARENT}}, child "PINS-<date>"; fallback: local md in {{OPS_FOLDER}}) + a chat summary. Connector down → stated fallback + FLAG; never fabricate.
 
 PRODUCT SOURCE — randomized folder rotation with hard dedupe:

@@ -6,7 +6,7 @@ ROUTINE STANDARD:
 - SCOPE: week-over-week KPI report, tracking & policy health, learnings + experiment distillation. NOT in scope: creating/editing pins (read-only toward {{SCHEDULER}}), store changes, keyword research.
 - AUTONOMY: fully autonomous. Sanctioned writes: weekly-learnings.md append, blog-learnings.md append, pin-outcomes.jsonl append, the report page.
 - KPIs REPORTED: outbound clicks (primary), outbound CTR vs 1.5–3%, saves vs 1–2% save rate, impressions, follower growth, Pinterest-attributed sessions/orders.
-- HANDOFFS: IN ← daily routine ledgers, {{SCHEDULER}} analytics, store attribution. OUT → weekly-learnings.md (01 Daily reads nightly), blog-learnings.md (02 reads), report read by 07 Digest.
+- HANDOFFS: IN ← daily routine ledgers, {{SCHEDULER}} analytics, store attribution. OUT → weekly-learnings.md (01 Daily reads nightly), blog-learnings.md (02 reads), report read by 00 Digest.
 - LOGGING & HONESTY: report page under {{NOTION_WEEKLY_REPORT_PARENT}} = log of record; 3-line chat TL;DR. "No data yet" is always acceptable; fabricating never is.
 
 WINDOW: completed Mon–Sun week vs the prior 7 days.

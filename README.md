@@ -1,6 +1,6 @@
 # Brand Autopilot — a Claude-powered marketing team for small e-commerce brands
 
-One founder + Claude = a daily Pinterest channel, an SEO/AEO blog, Reddit founder-credibility, short-form social (TikTok / Reels / Shorts), a weekly sales audit, safe product onboarding with an IP gate, and a one-page Saturday digest — all running as **scheduled routines that measure their own results and improve every week**.
+One founder + Claude = a daily Pinterest channel, an SEO/AEO blog, Reddit founder-credibility, short-form social (TikTok / Reels / Shorts), a weekly sales audit, safe product onboarding with an IP gate, a weekly conversion-intelligence report, a price-blind daily order export for your fulfillment partner, and a one-page Saturday digest — all running as **scheduled routines that measure their own results and improve every week**.
 
 Built and battle-tested on a real Gen Z home-decor store, then genericized so any small brand can run it. No ad spend assumed. Designed for **no-coders**: you answer an interview once, then read reports.
 
@@ -11,28 +11,33 @@ Built and battle-tested on a real Gen Z home-decor store, then genericized so an
 | Path | What it is |
 |---|---|
 | `skills/brand-autopilot-setup/` | An installable Claude **skill** that interviews you and builds YOUR routine system from the templates |
-| `routines/` | 10 routine prompt **templates** (7 groups) with `{{PLACEHOLDERS}}` + an architecture README |
+| `routines/` | 12 routine prompt **templates** (9 groups, 00–08) with `{{PLACEHOLDERS}}` + an architecture README |
 | `playbooks/` | Shared standards the routines co-read: the **blog editorial standard** (90/10 subtle-sell + the delete-the-products gate) and **multi-engine SEO** (Google + Bing + ChatGPT/Copilot rules + the organic-search ops checklist) |
+| `tools/` | `build_fulfillment_xlsx.py` — the price-blind Excel builder Group 08 uses (column allowlist + refuses to run if a money field reaches it) |
 | `brand-config.template.md` | The single config sheet the setup interview fills in |
 
-### The 7 groups (10 recurring routines)
+### The 9 groups (12 recurring routines)
 
 | Group | Routines | Default cadence |
 |---|---|---|
+| 00 Ops | Weekly Digest — one page, everything, "decisions waiting on you" | Sat |
 | 01 Pinterest | Daily Content · Weekly Audit | daily + Mon |
 | 02 Blog | Research & Write (one run = research → brief → write → publish → distribute) | 2×/week |
 | 03 Reddit | Thread Scout · Posting Reminder — **assist-only, you post manually** | 3×/week |
 | 04 Sales | Weekly Audit — audit → your approval → implement → measure | Mon |
 | 05 Social (short-form) | Daily Content (Drive → captions → scheduler) · Weekly Report | daily + Sun |
 | 06 Products | IP Gate & Enrichment — no risky product ever goes live | daily |
-| 07 Ops | Weekly Digest — one page, everything, "decisions waiting on you" | Sat |
+| 07 Analytics *(optional)* | Conversion Intelligence — behavior data → 1-page CRO report → hypothesis experiments into 04's approval queue; never touches the store | Mon |
+| 08 Fulfillment *(optional)* | Daily Order Export — new paid orders → **price-blind** Excel for your fulfillment partner (you forward it; it never sends) | daily |
+
+Monday order matters when 07 is installed: 07 analytics (08:00) → 01 audit (08:30) → 04 sales (09:00) — 04 consumes both handoffs.
 
 ---
 
 ## Requirements
 
 - **Claude desktop app** (Pro or Max) with scheduled tasks. Routines run while the app is open — leave it running in the hours your routines fire, or use Claude's cloud scheduled agents instead (the templates are plain prompts; they work with any scheduler that runs Claude).
-- **Connectors** (add in claude.ai → Settings → Connectors): your store platform (Shopify MCP recommended), **Metricool** (the publishing + analytics rail — free tier works to start), **Google Drive** (asset intake), **Notion** (reports & queues), web search. Optional: **Klaviyo** (email audit in Group 04), **Canva** (blog covers).
+- **Connectors** (add in claude.ai → Settings → Connectors): your store platform (Shopify MCP recommended), **Metricool** (the publishing + analytics rail — free tier works to start), **Google Drive** (asset intake), **Notion** (reports & queues), web search. Optional: **Klaviyo** (email audit in Group 04), **Canva** (blog covers), **PostHog** or similar session analytics (Group 07), Python + `openpyxl` (Group 08's Excel builder).
 - A store with products, and product/lifestyle images in a Google Drive folder.
 
 ## Quickstart (≈30 minutes)
@@ -78,7 +83,8 @@ Field-tested defaults are baked in (e.g. on the source brand, room-scene product
 - **No Metricool?** Every publishing routine falls back to a ready-to-paste scheduling sheet. But the analytics joins are much weaker without it — the free tier is worth it.
 - **What does it cost to run?** A Claude Pro/Max subscription + free connector tiers. The system was designed under a ~$1k/month total-burn constraint.
 - **Where do reports land?** Notion pages per routine + local ledger files; the Saturday digest is one page with a "decisions waiting on you" list.
-- **Can I change cadences?** Yes — every routine's trigger is one line; tell Claude to reschedule. Keep the evening chain order if you use Groups 06 + 01 together (products gate runs before the pin routine reads shared state).
+- **Can I change cadences?** Yes — every routine's trigger is one line; tell Claude to reschedule. Keep the evening chain order if you use Groups 06 + 01 together (products gate runs before the pin routine reads shared state), and the Monday order if you use Group 07 (analytics → Pinterest audit → sales audit).
+- **I use a fulfillment partner — can they see my prices?** No. Group 08's export is price-blind by construction: the query carries no money fields, the builder script emits a fixed column allowlist, and it refuses to run if a money-bearing key ever reaches it. The routine also never sends the file — you forward it yourself.
 
 ## License
 

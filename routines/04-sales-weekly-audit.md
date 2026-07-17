@@ -6,7 +6,7 @@ ROUTINE STANDARD:
 - SCOPE: read-only audit of store performance, site CRO, and email health; prioritized recommendations; one seasonal campaign concept. NOT in scope: channel-content detail (cite the channel audits, don't redo them), ANY store/theme/email change without the founder's explicit approval.
 - AUTONOMY: audit + recommendations autonomous. IMPLEMENTATION IS APPROVAL-GATED: propose → WAIT for an explicit yes in chat → implement → verify → measure next week. Silence ≠ approval; re-propose instead.
 - KPIs: conversion rate, AOV, revenue, email flow revenue share, abandoned-checkout recovery rate.
-- HANDOFFS: findings can re-prioritize all content routines (record the directive; the founder routes it). Report read by 07 Digest.
+- HANDOFFS: IN ← 07 Analytics' `handoff-to-04-latest.md` (if Group 07 is installed). OUT → findings can re-prioritize all content routines (record the directive; the founder routes it). Report read by 00 Digest.
 - LOGGING & HONESTY: append a dated section to {{OPS_FOLDER}}/sales/audit-log.md (summary + recommendations table + approval statuses). Every figure from a tool result; small samples labeled "low-signal".
 
 WINDOW: completed Mon–Sun week vs prior 7 days.
@@ -22,6 +22,8 @@ STEP 4 — CRO REVIEW (read-only, rotating): each week ONE surface in rotation �
 STEP 4b — ORGANIC SEARCH OPS (rules: playbooks/multi-engine-seo.md — read its write-time + ops sections before this step):
 WEEKLY: interpret the search-bucket sessions/CR/revenue from Step 2 (search CR should hold a healthy multiple of social CR — that multiple is the strategy's proof); GSC quick pass IF a logged-in browser session is available — coverage deltas + STRIKING-DISTANCE HARVEST (queries at position 4–15 with impressions → route each to a small on-page tweak or to the blog routine's keyword bank with source "gsc"); flag new schema errors from GSC's Shopping/Merchant-listings report; propose one internal link toward the top striking-distance page. If GSC can't be read this run, write "GSC: not read this week" — never fabricate.
 MONTHLY (first audit of the month): full GSC query/page read; indexed-product coverage vs active count; Bing Webmaster Tools check; Rich Results validation trio (1 product / 1 collection / 1 article); GSC 404 report → redirect proposals; verdict line "Organic ops: HEALTHY / WATCH (<issue>) / ACTION (<fix>)". If a Merchant Center feed is planned, report open readiness blocks (identity truthfulness, policy parity, price accuracy, schema coverage) under "decisions waiting".
+
+STEP 4c — CONSUME 07's HANDOFF (only if Group 07 Analytics is installed): read `{{OPS_FOLDER}}/analytics/handoff-to-04-latest.md`. Fold its hypothesis-formatted CRO experiments into this week's recommendations table (same approval flow as your own — the founder sees ONE queue). Respect its one-store-experiment-at-a-time rule; if one of its experiments is already live, hold new ones and say so.
 
 STEP 5 — DELIVERABLES:
 1. TOP 5 FINDINGS, one line each, data-cited, impact-ordered.

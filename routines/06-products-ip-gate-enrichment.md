@@ -6,7 +6,7 @@ ROUTINE STANDARD:
 - SCOPE: DRAFT-status products in the store, ≤5/night, oldest first. NOT in scope: active/archived products, pricing, sourcing.
 - AUTONOMY: per {{PRODUCT_GATE_MODE}} — `propose` = full gate + enrichment prepared, activation waits for the founder's yes; `full-auto` = a clean PASS activates automatically. A flagged product NEVER activates, silently or otherwise, in either mode.
 - KPIs: processed / passed / channel-excluded / held / failed per night; zero platform policy strikes.
-- HANDOFFS: OUT → activated products feed Groups 01/02/05 content; excluded products sync into 01's block-list the same run; verdict reports read by 07 Digest.
+- HANDOFFS: OUT → activated products feed Groups 01/02/05 content; excluded products sync into 01's block-list the same run; verdict reports read by 00 Digest.
 - LOGGING & HONESTY: a runLog line every night (0 eligible drafts = quiet skip, the normal outcome) + a verdict report on processing nights, flagged products FIRST. Failed writes stated plainly.
 
 WHY THE GATE EXISTS: replica/look-alike decor and prohibited categories get merchant accounts struck — and strikes compound toward account deactivation. When in doubt the answer is never "activate and see"; it is "hold and flag". Bias every ambiguous call conservative.

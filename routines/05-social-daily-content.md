@@ -6,7 +6,7 @@ ROUTINE STANDARD:
 - SCOPE: intake new Drive assets → platform captions → schedule via {{SCHEDULER}} → ledger. NOT in scope: creating/editing media, the Pinterest channel (→ 01), store changes.
 - AUTONOMY: fully autonomous. NEVER move, rename, duplicate, or delete the founder's files — read-only intake, no exceptions.
 - KPIs (measured by 05 Weekly Report): views, completion rate, follower growth, profile clicks, referral sessions.
-- HANDOFFS: IN ← Drive drops; IN ← social-learnings.md (Sundays). OUT → ledger.json read by the Weekly Report and 07 Digest.
+- HANDOFFS: IN ← Drive drops; IN ← social-learnings.md (Sundays). OUT → ledger.json read by the Weekly Report and 00 Digest.
 - LOGGING & HONESTY: one ledger line per asset + a 3–5-line chat summary. Scheduler unreachable → output a ready-to-paste scheduling sheet (asset, platform, datetime, caption + hashtags), mark "failed" for retry, FLAG — never silently skip.
 
 PLAYBOOK: read the framework doc in {{OPS_FOLDER}}/social/ first (time table, caption templates, hashtag banks per aesthetic, 2026 algorithm gates) + social-learnings.md (latest section = live guidance; never overrides caps or claim rules) + ledger.json.
