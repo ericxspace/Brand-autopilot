@@ -128,6 +128,11 @@
   .routine-row .cad{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;padding-top:3px;text-align:right}
   .mchip{display:inline-block;margin-top:5px;padding:1px 9px;border:1px solid var(--line);border-radius:999px;font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
   .mchip.opus{border-color:var(--accent);color:var(--accent)}
+  .pin-mix{display:flex;gap:10px;align-items:center;margin-top:9px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+  .pin-mix label{font-weight:600}
+  .pin-mix input[type="number"]{width:60px;padding:4px 8px}
+  .pin-mix input[type="range"]{flex:1;min-width:120px;max-width:190px;accent-color:var(--accent);padding:0;border:none;background:transparent}
+  .pin-mix #pinSplitLabel{font-size:12px;white-space:nowrap}
   .switch{position:relative;width:40px;height:22px;flex:none;margin-top:2px}
   .switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
   .switch .track{position:absolute;inset:0;background:var(--line);border-radius:999px;transition:background .15s}
@@ -438,7 +443,15 @@
       </div>
       <div class="card" style="margin-top:22px">
         <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>00 · Weekly Digest</h3><p class="desc">One page every Saturday: what ran, key numbers, and “decisions waiting on you”.</p></div><span class="cad">Sat 09:00<br><span class="mchip opus">Opus</span></span></div>
-        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>01 · Pinterest — Daily Content + Weekly Audit</h3><p class="desc">Fresh pins nightly with anti-spam rails; Monday audit turns results into next week's rules.</p></div><span class="cad">daily 21:00 · Mon 08:30<br><span class="mchip opus">Opus</span></span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>01 · Pinterest — Daily Content + Weekly Audit</h3><p class="desc">Fresh pins nightly with anti-spam rails; Monday audit turns results into next week's rules.</p>
+          <div class="pin-mix">
+            <label for="pinsTotal">Pins/day</label>
+            <input type="number" id="pinsTotal" min="2" max="10" value="10" aria-label="Total pins per day">
+            <input type="range" id="pinSplit" min="0" max="10" value="6" aria-label="Product pins share">
+            <span class="mono" id="pinSplitLabel">6 product · 4 inspiration</span>
+          </div>
+          <p class="desc" style="margin-top:4px">10/day is the anti-spam ceiling. Inspiration pins always keep the peak slots — they're what the algorithm distributes. If your account is new or recovering, lower the <em>total</em>, not just the ratio.</p>
+        </div><span class="cad">daily 21:00 · Mon 08:30<br><span class="mchip opus">Opus</span></span></div>
         <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>02 · Blog — Research &amp; Write</h3><p class="desc">Research → brief → article → distribution, twice a week. Advice-first: 90/10 value-to-promotion, enforced.</p></div><span class="cad">Tue + Sat 21:00<br><span class="mchip opus">Opus</span></span></div>
         <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>03 · Reddit — Scout + Reminder</h3><p class="desc">Finds threads and drafts honest owner-voiced replies. <b>You</b> post them — it never posts for you.</p></div><span class="cad">Tue/Thu/Sat<br><span class="mchip sonnet">Sonnet</span></span></div>
         <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>04 · Sales — Weekly Audit</h3><p class="desc">Store funnel, email health, CRO review → recommendations that wait for your yes.</p></div><span class="cad">Mon 09:00<br><span class="mchip opus">Opus</span></span></div>
@@ -889,6 +902,22 @@
       td.appendChild(btn);
       tb.appendChild(tr);
     });
+  })();
+
+  /* pin volume & mix control (routine 01) */
+  (function(){
+    var total = $("#pinsTotal"), split = $("#pinSplit"), label = $("#pinSplitLabel");
+    function sync(){
+      var t = Math.max(2, Math.min(10, Number(total.value) || 10));
+      total.value = t;
+      split.max = t;
+      if (Number(split.value) > t) split.value = t;
+      var prod = Number(split.value);
+      label.textContent = prod + " product · " + (t - prod) + " inspiration";
+    }
+    total.addEventListener("input", sync);
+    split.addEventListener("input", sync);
+    sync();
   })();
 
   /* aesthetics: free-text chips — the user types their own style words */

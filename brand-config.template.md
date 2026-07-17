@@ -46,7 +46,9 @@
 ## Cadence & autonomy choices
 | Placeholder | Value | Options |
 |---|---|---|
-| `{{PINS_PER_DAY}}` | | default 10 (6 product + 4 inspiration) |
+| `{{PINS_PER_DAY}}` | total pins/day | default 10 — treat 10 as the anti-spam ceiling; if the account is new or recovering, trim the TOTAL, not just the ratio |
+| `{{PRODUCT_PINS_PER_DAY}}` | product-pin share of the total | default 6 |
+| `{{INSPIRATION_PINS_PER_DAY}}` | inspiration-pin share (always takes the peak slots) | default 4 — product + inspiration must sum to `{{PINS_PER_DAY}}` |
 | `{{BLOG_DAYS}}` | | default Tue + Sat |
 | `{{BLOG_PUBLISH_MODE}}` | | `draft` (recommended start) or `publish` (full auto) |
 | `{{PRODUCT_GATE_MODE}}` | | `propose` (recommended start) or `full-auto` (clean PASS activates) |
