@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand Autopilot — App Prototype</title>
+</head>
+<body>
+<style>
+  :root{
+    --bg:#F3F1EA; --panel:#FBFAF6; --panel2:#EFECE2; --ink:#1E2A33; --muted:#5C6B76;
+    --line:#D9D4C6; --accent:#E0631F; --accent-ink:#FFF6EF; --accent-soft:#F7E3D4;
+    --ok:#2E7D57; --ok-soft:#E2EFE7; --warn:#B57A17; --warn-soft:#F4EAD3; --crit:#B3402E; --crit-soft:#F3DFDA;
+    --shadow:0 1px 2px rgba(30,42,51,.06),0 8px 24px rgba(30,42,51,.07);
+    --r:10px;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",sans-serif;
+    --mono:"Cascadia Code",ui-monospace,"SF Mono",Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#141C24; --panel:#1C2733; --panel2:#22303D; --ink:#E9E6DC; --muted:#8DA0AE;
+      --line:#2E3B48; --accent:#F0763A; --accent-ink:#1A0E05; --accent-soft:#3A2818;
+      --ok:#57B98B; --ok-soft:#1D3A2E; --warn:#D9A03C; --warn-soft:#3B301F; --crit:#D96A55; --crit-soft:#3E241F;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141C24; --panel:#1C2733; --panel2:#22303D; --ink:#E9E6DC; --muted:#8DA0AE;
+    --line:#2E3B48; --accent:#F0763A; --accent-ink:#1A0E05; --accent-soft:#3A2818;
+    --ok:#57B98B; --ok-soft:#1D3A2E; --warn:#D9A03C; --warn-soft:#3B301F; --crit:#D96A55; --crit-soft:#3E241F;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"]{
+    --bg:#F3F1EA; --panel:#FBFAF6; --panel2:#EFECE2; --ink:#1E2A33; --muted:#5C6B76;
+    --line:#D9D4C6; --accent:#E0631F; --accent-ink:#FFF6EF; --accent-soft:#F7E3D4;
+    --ok:#2E7D57; --ok-soft:#E2EFE7; --warn:#B57A17; --warn-soft:#F4EAD3; --crit:#B3402E; --crit-soft:#F3DFDA;
+    --shadow:0 1px 2px rgba(30,42,51,.06),0 8px 24px rgba(30,42,51,.07);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans)}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+  input,select,textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px;width:100%}
+  input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  h1,h2,h3{margin:0;font-weight:600}
+  a{color:var(--accent)}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+  /* ── prototype ribbon ─────────────────────────── */
+  .ribbon{display:flex;justify-content:center;align-items:center;gap:10px;padding:7px 14px;background:var(--ink);color:var(--bg);font-size:12.5px;letter-spacing:.04em}
+  .ribbon b{font-weight:600}
+  .ribbon .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+
+  /* ── shared bits ──────────────────────────────── */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-weight:600;font-size:14.5px;border:1px solid var(--line);background:var(--panel);transition:transform .06s ease, box-shadow .12s ease}
+  .btn:hover{box-shadow:var(--shadow)}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .btn.ghost{background:transparent}
+  .btn.small{padding:6px 12px;font-size:13px;font-weight:600}
+  .btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.02em}
+  .pill.ok{background:var(--ok-soft);color:var(--ok)}
+  .pill.warn{background:var(--warn-soft);color:var(--warn)}
+  .pill.crit{background:var(--crit-soft);color:var(--crit)}
+  .pill.neutral{background:var(--panel2);color:var(--muted)}
+  .pill.accent{background:var(--accent-soft);color:var(--accent)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+  .eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .muted{color:var(--muted)}
+  .screen{display:none}
+  .screen.active{display:block}
+
+  /* ── login ────────────────────────────────────── */
+  #login .wrap{max-width:1060px;margin:0 auto;padding:56px 24px 80px;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;min-height:78vh}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;letter-spacing:.01em}
+  .logo .mark{width:30px;height:30px;flex:none}
+  #login h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.6vw,52px);line-height:1.12;text-wrap:balance;margin:26px 0 16px}
+  #login .sub{font-size:17px;max-width:46ch;color:var(--muted)}
+  #login ul.proof{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:12px;max-width:52ch}
+  #login ul.proof li{display:flex;gap:10px;align-items:baseline}
+  #login ul.proof li::before{content:"—";color:var(--accent);font-weight:700;flex:none}
+  .login-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:30px 28px}
+  .login-card h2{font-size:18px;margin-bottom:4px}
+  .login-card .step-note{font-size:13.5px;color:var(--muted);margin:0 0 20px}
+  .shopify-btn{width:100%;justify-content:center;padding:13px;font-size:15.5px}
+  .divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12.5px;margin:18px 0}
+  .divider::before,.divider::after{content:"";height:1px;background:var(--line);flex:1}
+  .trust{font-size:13px;color:var(--muted);margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+
+  /* ── wizard ───────────────────────────────────── */
+  #setup .wrap{max-width:880px;margin:0 auto;padding:36px 24px 90px}
+  .steps{display:flex;gap:4px;margin:26px 0 30px;flex-wrap:wrap}
+  .step-tab{flex:1;min-width:120px;padding:9px 6px 11px;border-top:3px solid var(--line);font-size:12.5px;font-weight:600;color:var(--muted)}
+  .step-tab .n{font-family:var(--mono);font-size:11px;display:block;color:var(--muted)}
+  .step-tab.done{border-top-color:var(--ok);color:var(--ok)}
+  .step-tab.now{border-top-color:var(--accent);color:var(--ink)}
+  .wizard-head h1{font-family:var(--serif);font-weight:500;font-size:30px;margin-bottom:6px}
+  .wizard-head p{margin:0;color:var(--muted);max-width:62ch}
+  .wstep{display:none;margin-top:26px}
+  .wstep.active{display:block}
+  .wizard-nav{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .conn-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .conn{display:flex;flex-direction:column;gap:8px}
+  .conn .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .conn h3{font-size:15.5px}
+  .conn .why{font-size:13.5px;color:var(--muted)}
+  .conn .fallback{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+  .conn .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+  .tree{font-family:var(--mono);font-size:13.5px;line-height:1.9;background:var(--panel2);border-radius:8px;padding:16px 18px;overflow-x:auto;white-space:pre}
+  .hint{display:flex;gap:10px;background:var(--accent-soft);border-radius:8px;padding:12px 14px;font-size:13.5px;margin-top:14px}
+  .hint b{color:var(--accent)}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+  .field .help{font-size:12.5px;color:var(--muted);margin-top:5px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .chip{padding:4px 12px;border:1px solid var(--line);border-radius:999px;font-size:13px;background:var(--panel)}
+  .chip.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .routine-row{display:flex;align-items:flex-start;gap:14px;padding:13px 4px;border-bottom:1px solid var(--line)}
+  .routine-row:last-child{border-bottom:none}
+  .routine-row .grow{flex:1}
+  .routine-row h3{font-size:14.5px}
+  .routine-row .desc{font-size:13px;color:var(--muted)}
+  .routine-row .cad{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;padding-top:3px}
+  .switch{position:relative;width:40px;height:22px;flex:none;margin-top:2px}
+  .switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+  .switch .track{position:absolute;inset:0;background:var(--line);border-radius:999px;transition:background .15s}
+  .switch .track::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--panel);transition:transform .15s}
+  .switch input:checked + .track{background:var(--ok)}
+  .switch input:checked + .track::after{transform:translateX(18px)}
+  .switch input:focus-visible + .track{outline:2px solid var(--accent);outline-offset:2px}
+  .radio-set{display:grid;gap:10px;margin-top:8px}
+  .radio-opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:11px 13px;cursor:pointer}
+  .radio-opt input{width:auto;margin-top:3px}
+  .radio-opt.on{border-color:var(--accent);background:var(--accent-soft)}
+  .radio-opt b{font-size:14px}
+  .radio-opt .r-help{font-size:12.5px;color:var(--muted)}
+  .samples{display:grid;gap:10px;margin-top:16px}
+  .sample{border-left:3px solid var(--accent);background:var(--panel2);border-radius:0 8px 8px 0;padding:11px 14px;font-size:13.5px}
+  .sample .tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:3px}
+
+  /* ── app shell ────────────────────────────────── */
+  #shell{display:none}
+  #shell.active{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 33px)}
+  .side{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px}
+  .side .logo{padding:0 8px 16px}
+  .brand-switch{margin-bottom:14px}
+  .brand-switch select{font-weight:600}
+  .nav-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 12px;border-radius:8px;font-weight:600;font-size:14px;color:var(--muted)}
+  .nav-btn:hover{background:var(--panel2);color:var(--ink)}
+  .nav-btn.on{background:var(--accent-soft);color:var(--accent)}
+  .nav-btn .ico{width:18px;text-align:center;flex:none}
+  .side .foot{margin-top:auto;font-size:12px;color:var(--muted);padding:12px 8px 4px;border-top:1px dashed var(--line)}
+  .main{padding:26px 30px 70px;min-width:0}
+  .view{display:none}
+  .view.active{display:block}
+  .page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+  .page-head h1{font-family:var(--serif);font-weight:500;font-size:26px}
+  .page-head .sub{font-size:13.5px;color:var(--muted);margin-top:3px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+  .kpi{padding:15px 16px 12px}
+  .kpi .k-label{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .kpi .k-val{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:26px;font-weight:600;margin:4px 0 2px}
+  .kpi .k-delta{font-size:12.5px;font-weight:600}
+  .kpi .k-delta.up{color:var(--ok)} .kpi .k-delta.down{color:var(--crit)} .kpi .k-delta.flat{color:var(--muted)}
+  .kpi svg{display:block;width:100%;height:34px;margin-top:8px}
+  .kpi svg polyline{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .kpi svg circle{fill:var(--accent)}
+  .dash-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;align-items:start}
+  .dash-col{display:grid;gap:14px}
+  .card h2{font-size:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .sched-row{display:flex;align-items:center;gap:12px;padding:9px 2px;border-bottom:1px solid var(--line);font-size:13.5px}
+  .sched-row:last-child{border-bottom:none}
+  .sched-row .t{font-family:var(--mono);font-size:12px;color:var(--muted);width:52px;flex:none}
+  .sched-row .name{flex:1;font-weight:600}
+  .decision{display:flex;flex-direction:column;gap:8px;padding:12px 2px;border-bottom:1px solid var(--line)}
+  .decision:last-child{border-bottom:none}
+  .decision .d-top{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+  .decision .d-src{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);flex:none}
+  .decision p{margin:0;font-size:13.5px}
+  .decision .d-act{display:flex;gap:8px}
+  .chan-stat{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .chan-stat:last-child{border-bottom:none}
+  .chan-stat .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:600}
+  .chan-stat .d{font-size:12px;font-weight:600;margin-left:8px}
+  .chan-stat .d.up{color:var(--ok)} .chan-stat .d.down{color:var(--crit)}
+  .digest-quote{font-size:13.5px;border-left:3px solid var(--line);padding:2px 0 2px 14px;color:var(--muted)}
+  .digest-quote b{color:var(--ink)}
+
+  /* routines table */
+  .rt-wrap{overflow-x:auto}
+  table.rt{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px}
+  table.rt th{text-align:left;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line)}
+  table.rt td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+  table.rt tr:last-child td{border-bottom:none}
+  table.rt .mono{font-size:12.5px}
+  .status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}
+  .status-dot.ok{background:var(--ok)} .status-dot.warn{background:var(--warn)} .status-dot.off{background:var(--line)}
+
+  /* brands view */
+  .brand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .brand-card{display:flex;flex-direction:column;gap:10px}
+  .brand-card h3{font-size:17px;font-family:var(--serif);font-weight:600}
+  .brand-card .niche{font-size:13px;color:var(--muted)}
+  .brand-card .mini{display:flex;gap:16px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+  .brand-card .mini b{display:block;font-family:var(--mono);font-size:15px;color:var(--ink)}
+  .add-brand{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1.5px dashed var(--line);background:transparent;border-radius:var(--r);min-height:170px;color:var(--muted);font-weight:600;cursor:pointer;width:100%}
+  .add-brand:hover{border-color:var(--accent);color:var(--accent)}
+  .add-brand .plus{font-size:26px;line-height:1}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:999px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow);transition:transform .25s ease;z-index:50;max-width:90vw;text-align:center}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:860px){
+    #login .wrap{grid-template-columns:1fr;gap:34px;padding-top:34px}
+    .conn-grid{grid-template-columns:1fr}
+    #shell.active{grid-template-columns:1fr}
+    .side{flex-direction:row;align-items:center;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+    .side .logo{padding:0 10px 0 0}
+    .brand-switch{margin:0;flex:1;min-width:150px}
+    .side .foot{display:none}
+    .nav-btn{width:auto}
+    .kpis{grid-template-columns:1fr 1fr}
+    .dash-grid{grid-template-columns:1fr}
+    .main{padding:20px 16px 60px}
+  }
+</style>
+
+<div class="ribbon"><span class="dot"></span><span><b>Interactive prototype</b> — every number and brand on this page is fictional demo data. Click around; nothing is saved.</span></div>
+
+<!-- ═══════════ SCREEN 1 · SIGN IN ═══════════ -->
+<section id="login" class="screen active">
+  <div class="wrap">
+    <div>
+      <div class="logo">
+        <svg class="mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="M15 15 L22 8" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/><circle cx="15" cy="15" r="2.4" fill="var(--accent)"/></svg>
+        Brand Autopilot
+      </div>
+      <h1>Your marketing team, on&nbsp;autopilot.</h1>
+      <p class="sub">Twelve scheduled routines run your Pinterest channel, blog, socials, product safety gate, and weekly reports — and improve themselves from your own results, every week.</p>
+      <ul class="proof">
+        <li>Built for founders, not coders — answer one interview, then read reports.</li>
+        <li>Approval-gated: nothing touches your live store without your explicit yes.</li>
+        <li>Runs one brand or ten — each brand gets its own config, ledgers, and dashboard.</li>
+      </ul>
+    </div>
+    <div class="login-card">
+      <h2>Sign in</h2>
+      <p class="step-note">Your Shopify store is your account — no new password to remember.</p>
+      <button class="btn primary shopify-btn" onclick="signIn()">
+        <svg width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><path d="M3.5 5.5h10l-1 9h-8z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 5.5V4.4a2.5 2.5 0 0 1 5 0v1.1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        Continue with Shopify
+      </button>
+      <div class="divider">then</div>
+      <p style="font-size:13.5px;margin:0" class="muted">…we'll connect your tools, set up your media library in Google Drive, and switch on your routines. About 15 minutes, once.</p>
+      <p class="trust">🔒 In the real app this opens Shopify's own approval page — we never see or store your Shopify password. <b>Prototype:</b> clicking signs you into a demo store.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SCREEN 2 · SETUP WIZARD ═══════════ -->
+<section id="setup" class="screen">
+  <div class="wrap">
+    <div class="logo" style="font-size:14px">
+      <svg class="mark" width="24" height="24" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="M15 15 L22 8" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/><circle cx="15" cy="15" r="2.4" fill="var(--accent)"/></svg>
+      Brand Autopilot · Setup
+    </div>
+
+    <div class="steps" id="stepTabs">
+      <div class="step-tab" data-step="1"><span class="n">Step 1</span>Store</div>
+      <div class="step-tab" data-step="2"><span class="n">Step 2</span>Connections</div>
+      <div class="step-tab" data-step="3"><span class="n">Step 3</span>Media library</div>
+      <div class="step-tab" data-step="4"><span class="n">Step 4</span>Brand profile</div>
+      <div class="step-tab" data-step="5"><span class="n">Step 5</span>Routines &amp; go-live</div>
+    </div>
+
+    <!-- step 1 -->
+    <div class="wstep" data-step="1">
+      <div class="wizard-head">
+        <h1>Store connected ✓</h1>
+        <p>We found your store and synced what the routines need. Nothing was changed — reading only.</p>
+      </div>
+      <div class="card" style="margin-top:22px">
+        <h2 style="font-size:16px">🛍 paper-meridian.myshopify.com <span class="pill ok">Connected</span></h2>
+        <div class="chan-stat"><span>Products found</span><span class="v">24 active · 6 drafts</span></div>
+        <div class="chan-stat"><span>Blog</span><span class="v">"Field Notes" — 3 posts</span></div>
+        <div class="chan-stat"><span>Order sync</span><span class="v">on (read-only)</span></div>
+        <div class="chan-stat"><span>Sales channels</span><span class="v">Online Store, Pinterest</span></div>
+      </div>
+      <div class="wizard-nav">
+        <span></span>
+        <button class="btn primary" onclick="goStep(2)">Continue → Connections</button>
+      </div>
+    </div>
+
+    <!-- step 2 -->
+    <div class="wstep" data-step="2">
+      <div class="wizard-head">
+        <h1>Connect your tools</h1>
+        <p>Each connection unlocks part of the system. Skip any of them — every routine has a written fallback, and you can connect later in Settings.</p>
+      </div>
+      <div class="conn-grid" style="margin-top:22px">
+        <div class="card conn" data-conn="metricool">
+          <div class="top"><h3>Metricool</h3><span class="pill accent">Recommended</span></div>
+          <p class="why">The publishing rail — schedules your pins and social posts, and reports what they earned. Free tier is enough to start.</p>
+          <p class="fallback">Without it: routines hand you a ready-to-paste scheduling sheet instead.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'metricool')">Connect</button></div>
+        </div>
+        <div class="card conn" data-conn="drive">
+          <div class="top"><h3>Google Drive</h3><span class="pill accent">Recommended</span></div>
+          <p class="why">Your media library — product photos, room-scene images, and video clips live in <em>your</em> Drive. We read, never delete.</p>
+          <p class="fallback">Without it: you paste image links into a weekly intake sheet by hand.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'drive')">Connect</button></div>
+        </div>
+        <div class="card conn" data-conn="notion">
+          <div class="top"><h3>Notion</h3><span class="pill neutral">Optional</span></div>
+          <p class="why">Where reports and queues land as tidy pages you can read on your phone.</p>
+          <p class="fallback">Without it: reports are saved as local files instead.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'notion')">Connect</button></div>
+        </div>
+        <div class="card conn" data-conn="klaviyo">
+          <div class="top"><h3>Klaviyo</h3><span class="pill neutral">Optional</span></div>
+          <p class="why">Lets the Monday sales audit check your email flows and revenue per recipient.</p>
+          <p class="fallback">Without it: the audit skips the email section.</p>
+          <div class="foot"><span class="pill neutral conn-state">Not connected</span><button class="btn small" onclick="connect(this,'klaviyo')">Connect</button></div>
+        </div>
+      </div>
+      <div class="hint"><span>💡</span><span><b>How connecting works in the real app:</b> each button opens that tool's own sign-in page and asks for the minimum access. You approve it there — Brand Autopilot never sees your passwords.</span></div>
+      <div class="wizard-nav">
+        <button class="btn ghost" onclick="goStep(1)">← Back</button>
+        <button class="btn primary" onclick="goStep(3)">Continue → Media library</button>
+      </div>
+    </div>
+
+    <!-- step 3 -->
+    <div class="wstep" data-step="3">
+      <div class="wizard-head">
+        <h1>Set up your media library</h1>
+        <p>Your images stay in your own Google Drive — you keep ownership. Brand Autopilot works from three folders, and can create them for you right now:</p>
+      </div>
+      <div class="tree" style="margin-top:22px">📁 Brand Autopilot / Paper Meridian
+ ├─ 📁 Products      one subfolder per product (P0001, P0002 …)
+ │    └─ 📁 P0001    3+ images of THAT product styled inside a real room
+ ├─ 📁 Inspiration   room scenes &amp; moodboards — no product required
+ └─ 📁 Video intake  drop short clips here for TikTok / Reels / Shorts</div>
+      <div class="hint"><span>📸</span><span><b>What makes an image work:</b> show the product <em>inside a styled room</em>, taking up 15–35% of the frame. On the brand this system was built on, room-scene images out-performed plain close-ups roughly <b>50×</b>. Never upload the same image twice — the routines enforce this with a dedupe ledger.</span></div>
+      <div style="margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn primary" id="mkFolders" onclick="makeFolders()">Create these folders in my Drive</button>
+        <span class="muted" style="font-size:13px" id="mkFoldersNote">One click — we'll drop a “what goes here” note inside each folder.</span>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn ghost" onclick="goStep(2)">← Back</button>
+        <button class="btn primary" onclick="goStep(4)">Continue → Brand profile</button>
+      </div>
+    </div>
+
+    <!-- step 4 -->
+    <div class="wstep" data-step="4">
+      <div class="wizard-head">
+        <h1>Teach it your brand</h1>
+        <p>These answers become the voice of every pin, post, and blog article. You can refine them any time — the routines re-read this config on every run.</p>
+      </div>
+      <div class="card" style="margin-top:22px">
+        <div class="field"><label for="f-name">Brand name</label><input id="f-name" value="Paper Meridian"></div>
+        <div class="field"><label for="f-niche">Niche — one line</label><input id="f-niche" value="Small-batch stationery & desk objects for people who love paper"></div>
+        <div class="field">
+          <label>Aesthetics <span class="muted" style="font-weight:400">(drives hashtags &amp; copy matching — tap to toggle)</span></label>
+          <div class="chips">
+            <button class="chip on" onclick="this.classList.toggle('on')">analog revival</button>
+            <button class="chip on" onclick="this.classList.toggle('on')">warm minimal</button>
+            <button class="chip on" onclick="this.classList.toggle('on')">studio clutter</button>
+            <button class="chip" onclick="this.classList.toggle('on')">academia</button>
+            <button class="chip" onclick="this.classList.toggle('on')">japandi</button>
+          </div>
+        </div>
+        <div class="field"><label for="f-voice">Voice — 1–2 lines</label><textarea id="f-voice" rows="2">Quietly enthusiastic, precise, a little bookish. Never corporate, never shouty.</textarea></div>
+        <div class="field">
+          <label for="f-tag">Tagline sign-off</label>
+          <input id="f-tag" value="Write it down beautifully — papermeridian.com">
+          <p class="help">Repeated <b>word-for-word</b> on every pin and blog CTA. Repetition is the asset — pick a sentence you'll still love in a year.</p>
+        </div>
+        <div class="field" style="margin-bottom:0"><label for="f-tz">Your timezone</label>
+          <select id="f-tz"><option>Asia/Ho Chi Minh (GMT+7)</option><option>America/New_York (ET)</option><option>Europe/London (UK)</option></select>
+          <p class="help">Posting slots are placed on your <em>audience's</em> clock; your routines fire on yours.</p>
+        </div>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn ghost" onclick="goStep(3)">← Back</button>
+        <button class="btn primary" onclick="goStep(5)">Continue → Routines</button>
+      </div>
+    </div>
+
+    <!-- step 5 -->
+    <div class="wstep" data-step="5">
+      <div class="wizard-head">
+        <h1>Choose your routines</h1>
+        <p>The core system is on by default. Two add-ons are off until you need them. Every cadence can be changed later with one sentence.</p>
+      </div>
+      <div class="card" style="margin-top:22px">
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>00 · Weekly Digest</h3><p class="desc">One page every Saturday: what ran, key numbers, and “decisions waiting on you”.</p></div><span class="cad">Sat 09:00</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>01 · Pinterest — Daily Content + Weekly Audit</h3><p class="desc">Fresh pins nightly with anti-spam rails; Monday audit turns results into next week's rules.</p></div><span class="cad">daily 21:00 · Mon 08:30</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>02 · Blog — Research &amp; Write</h3><p class="desc">Research → brief → article → distribution, twice a week. Advice-first: 90/10 value-to-promotion, enforced.</p></div><span class="cad">Tue + Sat 21:00</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>03 · Reddit — Scout + Reminder</h3><p class="desc">Finds threads and drafts honest owner-voiced replies. <b>You</b> post them — it never posts for you.</p></div><span class="cad">Tue/Thu/Sat</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>04 · Sales — Weekly Audit</h3><p class="desc">Store funnel, email health, CRO review → recommendations that wait for your yes.</p></div><span class="cad">Mon 09:00</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>05 · Social — Daily Content + Weekly Report</h3><p class="desc">Drive clips → captions → scheduler for TikTok / Reels / Shorts.</p></div><span class="cad">daily 10:00 · Sun 20:00</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox" checked><span class="track"></span></label><div class="grow"><h3>06 · Products — IP Gate &amp; Enrichment</h3><p class="desc">Every draft product is policy-checked before it can go live. A risky product never activates silently.</p></div><span class="cad">daily 20:00</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox"><span class="track"></span></label><div class="grow"><h3>07 · Analytics — Conversion Intelligence <span class="pill neutral">Add-on</span></h3><p class="desc">Weekly behavior report + experiment ideas, if you run session analytics (PostHog).</p></div><span class="cad">Mon 08:00</span></div>
+        <div class="routine-row"><label class="switch"><input type="checkbox"><span class="track"></span></label><div class="grow"><h3>08 · Fulfillment — Daily Order Export <span class="pill neutral">Add-on</span></h3><p class="desc">New paid orders → a price-blind Excel for your fulfillment partner. It never emails anyone — you forward it.</p></div><span class="cad">daily 09:00</span></div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h2 style="font-size:15px">Two autonomy choices</h2>
+        <div class="field" style="margin-bottom:14px">
+          <label>Blog publishing</label>
+          <div class="radio-set">
+            <label class="radio-opt on"><input type="radio" name="blogmode" checked onchange="pickRadio(this)"><span><b>Draft first</b> <span class="pill ok" style="margin-left:6px">Recommended for your first 2 weeks</span><span class="r-help"><br>Articles wait for your review before publishing.</span></span></label>
+            <label class="radio-opt"><input type="radio" name="blogmode" onchange="pickRadio(this)"><span><b>Full auto</b><span class="r-help"><br>Articles publish live; you spot-check by exception.</span></span></label>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>New products</label>
+          <div class="radio-set">
+            <label class="radio-opt on"><input type="radio" name="prodmode" checked onchange="pickRadio(this)"><span><b>Propose first</b> <span class="pill ok" style="margin-left:6px">Recommended</span><span class="r-help"><br>Clean policy passes are proposed to you before activating.</span></span></label>
+            <label class="radio-opt"><input type="radio" name="prodmode" onchange="pickRadio(this)"><span><b>Full auto</b><span class="r-help"><br>Clean passes activate overnight; flagged products always wait for you.</span></span></label>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <button class="btn" id="testBtn" onclick="runTest()">▶ Run a safe test drive</button>
+        <div class="samples" id="samples" hidden>
+          <div class="sample"><span class="tag">Pin draft 1 of 2</span>“The desk accessory nobody regrets buying” — brass page holder styled on a walnut desk, links to its product page.</div>
+          <div class="sample"><span class="tag">Blog intro</span>“Your desk doesn't need more stuff — it needs three objects that earn their place. Here's how stationery people actually edit a workspace…”</div>
+          <div class="sample"><span class="tag">Reddit draft (you'd post this yourself)</span>“Shop owner here, so grain of salt — but for journaling starters I always suggest one good pen before ten notebooks…”</div>
+          <div class="sample"><span class="tag">Saturday digest format</span>Header topline → ran/didn't run → 3 wins → 3 issues → decisions waiting on you. Under one page, every week.</div>
+        </div>
+      </div>
+
+      <div class="wizard-nav">
+        <button class="btn ghost" onclick="goStep(4)">← Back</button>
+        <button class="btn primary" id="goLiveBtn" disabled onclick="goLive()">Everything looks right — Go live</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SCREEN 3 · APP SHELL ═══════════ -->
+<section id="shell">
+  <aside class="side">
+    <div class="logo">
+      <svg class="mark" width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--ink)" stroke-width="2"/><path d="M15 15 L22 8" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/><circle cx="15" cy="15" r="2.4" fill="var(--accent)"/></svg>
+      Brand Autopilot
+    </div>
+    <div class="brand-switch">
+      <select id="brandSel" onchange="switchBrand(this.value)" aria-label="Switch brand">
+        <option value="fern">🕯 Fern &amp; Flame</option>
+        <option value="kiln">🏺 Kiln Theory</option>
+        <option value="paper">📜 Paper Meridian (setup)</option>
+      </select>
+    </div>
+    <button class="nav-btn on" data-view="dash" onclick="goView('dash')"><span class="ico">◉</span>Dashboard</button>
+    <button class="nav-btn" data-view="routines" onclick="goView('routines')"><span class="ico">↻</span>Routines</button>
+    <button class="nav-btn" data-view="brands" onclick="goView('brands')"><span class="ico">▦</span>Brands</button>
+    <button class="nav-btn" onclick="toast('Settings ships in the beta — connections, config, and billing will live here.')"><span class="ico">⚙</span>Settings</button>
+    <div class="foot">Prototype v0.1 · fictional data<br>Feedback → Eric</div>
+  </aside>
+
+  <main class="main">
+    <!-- DASHBOARD -->
+    <div class="view active" data-view="dash">
+      <div class="page-head">
+        <div><h1 id="dashTitle">Fern &amp; Flame</h1><p class="sub" id="dashSub">Last 7 days vs the week before · all numbers cited from the routines' own ledgers</p></div>
+        <span class="pill ok" id="dashStatus">● Live — 12 routines on schedule</span>
+      </div>
+
+      <div class="kpis">
+        <div class="card kpi"><div class="k-label">Revenue · 7d</div><div class="k-val" id="k-rev">$1,284</div><div class="k-delta up" id="k-rev-d">▲ 18% WoW</div><svg viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"><polyline id="s-rev" points=""/><circle id="c-rev" r="2.6"/></svg></div>
+        <div class="card kpi"><div class="k-label">Orders</div><div class="k-val" id="k-ord">23</div><div class="k-delta up" id="k-ord-d">▲ 4 vs last week</div><svg viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"><polyline id="s-ord" points=""/><circle id="c-ord" r="2.6"/></svg></div>
+        <div class="card kpi"><div class="k-label">Sessions</div><div class="k-val" id="k-ses">4,102</div><div class="k-delta up" id="k-ses-d">▲ 9% WoW</div><svg viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"><polyline id="s-ses" points=""/><circle id="c-ses" r="2.6"/></svg></div>
+        <div class="card kpi"><div class="k-label">Conversion</div><div class="k-val" id="k-cvr">0.56%</div><div class="k-delta flat" id="k-cvr-d">— flat WoW</div><svg viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"><polyline id="s-cvr" points=""/><circle id="c-cvr" r="2.6"/></svg></div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-col">
+          <div class="card">
+            <h2>Today's schedule <span class="pill neutral mono" id="todayLabel">Fri</span></h2>
+            <div id="schedList"></div>
+          </div>
+          <div class="card">
+            <h2>Decisions waiting on you <span class="pill warn" id="decCount">3 open</span></h2>
+            <div id="decList"></div>
+          </div>
+        </div>
+        <div class="dash-col">
+          <div class="card">
+            <h2>Pinterest <span class="pill neutral">weekly audit · Mon</span></h2>
+            <div class="chan-stat"><span>Impressions</span><span><span class="v" id="p-imp">48.2K</span><span class="d up" id="p-imp-d">▲ 22%</span></span></div>
+            <div class="chan-stat"><span>Saves</span><span><span class="v" id="p-sav">612</span><span class="d up" id="p-sav-d">▲ 31%</span></span></div>
+            <div class="chan-stat"><span>Outbound clicks</span><span><span class="v" id="p-clk">387</span><span class="d up" id="p-clk-d">▲ 12%</span></span></div>
+            <div class="chan-stat"><span>Active experiment</span><span class="v" style="font-family:var(--sans);font-weight:500;font-size:12.5px" id="p-exp">question-titles vs statement-titles · wk 1/2</span></div>
+          </div>
+          <div class="card">
+            <h2>Email <span class="pill neutral">Klaviyo</span></h2>
+            <div class="chan-stat"><span>Revenue per recipient</span><span><span class="v" id="e-rpr">$0.42</span><span class="d up" id="e-rpr-d">▲ $0.06</span></span></div>
+            <div class="chan-stat"><span>Flow revenue share</span><span class="v" id="e-share">31%</span></div>
+            <div class="chan-stat"><span>List growth · 7d</span><span class="v" id="e-list">+58</span></div>
+            <p class="muted" style="font-size:12px;margin:8px 0 0">Open rate is shown as context only — Apple MPP inflates it.</p>
+          </div>
+          <div class="card">
+            <h2>Blog</h2>
+            <div class="chan-stat"><span>Posts this week</span><span class="v" id="b-posts">2</span></div>
+            <div class="chan-stat"><span>Blog sessions</span><span><span class="v" id="b-ses">640</span><span class="d up" id="b-ses-d">▲ 41%</span></span></div>
+            <div class="chan-stat"><span>Top post</span><span class="v" style="font-family:var(--sans);font-weight:500;font-size:12.5px" id="b-top">“Cozy corners under $50”</span></div>
+          </div>
+          <div class="card">
+            <h2>Saturday digest <span class="pill neutral mono">last: Sat</span></h2>
+            <p class="digest-quote" id="digestQuote"><b>11 of 12 routines ran.</b> Top win: room-scene pins +31% saves. Top issue: 2 inspiration folders nearly empty — asset runway 9 days. 3 decisions open below.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTINES -->
+    <div class="view" data-view="routines">
+      <div class="page-head">
+        <div><h1>Routines</h1><p class="sub">The 12 scheduled tasks that run this brand. Pause anything; edit any cadence by telling the assistant what to change.</p></div>
+        <button class="btn small" onclick="toast('In the beta this opens the routine\'s full prompt for editing.')">View prompts</button>
+      </div>
+      <div class="card rt-wrap">
+        <table class="rt" id="rtTable">
+          <thead><tr><th>Routine</th><th>Cadence</th><th>Last run</th><th>Next run</th><th>Status</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BRANDS -->
+    <div class="view" data-view="brands">
+      <div class="page-head">
+        <div><h1>Brands</h1><p class="sub">Each brand runs its own routines, config, and ledgers — one login, as many brands as you can feed with products and images.</p></div>
+      </div>
+      <div class="brand-grid">
+        <div class="card brand-card">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3>🕯 Fern &amp; Flame</h3><span class="pill ok">Live</span></div>
+          <p class="niche">Hand-poured botanical candles · US + CA</p>
+          <div class="mini"><span><b>$1,284</b>rev · 7d</span><span><b>23</b>orders</span><span><b>12/12</b>routines</span></div>
+          <button class="btn small" onclick="openBrand('fern')">Open dashboard</button>
+        </div>
+        <div class="card brand-card">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3>🏺 Kiln Theory</h3><span class="pill warn">Live · 1 issue</span></div>
+          <p class="niche">Small-batch studio ceramics · US</p>
+          <div class="mini"><span><b>$742</b>rev · 7d</span><span><b>11</b>orders</span><span><b>10/12</b>routines</span></div>
+          <button class="btn small" onclick="openBrand('kiln')">Open dashboard</button>
+        </div>
+        <div class="card brand-card">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3>📜 Paper Meridian</h3><span class="pill neutral">Setup · step 3 of 5</span></div>
+          <p class="niche">Small-batch stationery &amp; desk objects</p>
+          <div class="mini"><span><b>—</b>rev · 7d</span><span><b>—</b>orders</span><span><b>0/12</b>routines</span></div>
+          <button class="btn small" onclick="resumeSetup()">Resume setup</button>
+        </div>
+        <button class="add-brand" onclick="resumeSetup()"><span class="plus">＋</span>Add a brand<span class="muted" style="font-size:12px;font-weight:400">Sign in with its Shopify store</span></button>
+      </div>
+    </div>
+  </main>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- tiny helpers ---------- */
+  var $ = function(s,root){ return (root||document).querySelector(s); };
+  var $$ = function(s,root){ return Array.prototype.slice.call((root||document).querySelectorAll(s)); };
+  var toastTimer = null;
+  window.toast = function(msg){
+    var t = $("#toast"); t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 3200);
+  };
+
+  /* ---------- screens ---------- */
+  function showScreen(id){
+    $$(".screen").forEach(function(s){ s.classList.remove("active"); });
+    $("#shell").classList.remove("active");
+    if(id==="shell"){ $("#shell").classList.add("active"); }
+    else { $("#"+id).classList.add("active"); }
+    window.scrollTo(0,0);
+  }
+
+  window.signIn = function(){
+    toast("Signed into the demo store paper-meridian.myshopify.com");
+    showScreen("setup"); goStep(1);
+  };
+
+  /* ---------- wizard ---------- */
+  window.goStep = function(n){
+    $$(".wstep").forEach(function(s){ s.classList.toggle("active", s.dataset.step==String(n)); });
+    $$("#stepTabs .step-tab").forEach(function(t){
+      var k = Number(t.dataset.step);
+      t.classList.toggle("done", k<n); t.classList.toggle("now", k===n);
+    });
+    window.scrollTo(0,0);
+  };
+
+  window.connect = function(btn, name){
+    var card = btn.closest(".conn");
+    var state = card.querySelector(".conn-state");
+    state.textContent = "Connected"; state.className = "pill ok conn-state";
+    btn.remove();
+    toast(name.charAt(0).toUpperCase()+name.slice(1)+" connected (demo)");
+  };
+
+  window.makeFolders = function(){
+    var b = $("#mkFolders");
+    b.textContent = "✓ Folders created in your Drive"; b.classList.remove("primary"); b.disabled = true;
+    $("#mkFoldersNote").textContent = "Links saved to your brand config — drop images in whenever you like.";
+    toast("3 folders created (demo)");
+  };
+
+  window.pickRadio = function(input){
+    $$('input[name="'+input.name+'"]').forEach(function(r){ r.closest(".radio-opt").classList.toggle("on", r.checked); });
+  };
+
+  window.runTest = function(){
+    $("#samples").hidden = false;
+    var b = $("#testBtn"); b.textContent = "✓ Test drive complete — 4 samples below, nothing was published"; b.disabled = true;
+    $("#goLiveBtn").disabled = false;
+    toast("Draft-mode test complete. Review the samples, then go live.");
+  };
+
+  window.goLive = function(){
+    toast("Paper Meridian is live — first routine fires tonight at 20:00 🎉");
+    currentBrand = "paper";
+    $("#brandSel").value = "paper";
+    render("paper");
+    showScreen("shell"); goView("dash");
+  };
+
+  /* ---------- app shell ---------- */
+  window.goView = function(v){
+    $$(".view").forEach(function(x){ x.classList.toggle("active", x.dataset.view===v); });
+    $$(".nav-btn[data-view]").forEach(function(b){ b.classList.toggle("on", b.dataset.view===v); });
+    window.scrollTo(0,0);
+  };
+
+  window.openBrand = function(id){ $("#brandSel").value = id; switchBrand(id); goView("dash"); };
+  window.resumeSetup = function(){ showScreen("setup"); goStep(3); };
+
+  /* ---------- demo data ---------- */
+  var BRANDS = {
+    fern:{
+      title:"Fern & Flame", status:"● Live — 12 routines on schedule", statusClass:"pill ok",
+      kpis:{rev:["$1,284","▲ 18% WoW","up"], ord:["23","▲ 4 vs last week","up"], ses:["4,102","▲ 9% WoW","up"], cvr:["0.56%","— flat WoW","flat"]},
+      spark:{rev:[3,4,3.5,5,4.5,6,7.2], ord:[2,3,2,4,3,4,5], ses:[4,4.2,3.8,4.6,4.4,5,5.3], cvr:[3,3.4,3,3.2,3.1,3.2,3.2]},
+      pin:{imp:["48.2K","▲ 22%","up"], sav:["612","▲ 31%","up"], clk:["387","▲ 12%","up"], exp:"question-titles vs statement-titles · wk 1/2"},
+      email:{rpr:["$0.42","▲ $0.06","up"], share:"31%", list:"+58"},
+      blog:{posts:"2", ses:["640","▲ 41%","up"], top:"“Cozy corners under $50”"},
+      digest:"<b>11 of 12 routines ran.</b> Top win: room-scene pins +31% saves. Top issue: 2 inspiration folders nearly empty — asset runway 9 days. 3 decisions open below.",
+      decisions:[
+        {src:"04 · Sales", txt:"Move the “Winter Hearth” trio to the homepage hero — it converts 2.3× the current hero product."},
+        {src:"06 · Products", txt:"“Alpine Lodge” lantern held as UNCERTAIN — the shade resembles a designer original. Approve site-only, or keep held?"},
+        {src:"01 · Pinterest", txt:"Experiment verdict due: question-titles are +38% saves at week 1. Extend one more week?"}
+      ],
+      sched:[
+        ["09:00","08 · Fulfillment — order export","done","2 orders exported"],
+        ["10:00","05 · Social — daily content","done","3 posts scheduled"],
+        ["20:00","06 · Products — IP gate","next","2 drafts queued"],
+        ["21:00","01 · Pinterest — daily pins","queued","10 pins planned"],
+        ["21:00","02 · Blog — research & write","queued","topic: “gift wrapping stations”"]
+      ]
+    },
+    kiln:{
+      title:"Kiln Theory", status:"● Live — Metricool disconnected", statusClass:"pill warn",
+      kpis:{rev:["$742","▼ 6% WoW","down"], ord:["11","— same as last week","flat"], ses:["2,318","▲ 4% WoW","up"], cvr:["0.47%","▼ 0.05pt WoW","down"]},
+      spark:{rev:[5,6,5.5,5,4.8,4.5,4.6], ord:[3,3,4,3,3,3,3], ses:[3,3.2,3.4,3.3,3.5,3.6,3.7], cvr:[3.4,3.3,3.2,3.3,3.1,3,3]},
+      pin:{imp:["21.4K","▲ 8%","up"], sav:["298","▲ 5%","up"], clk:["164","▼ 9%","down"], exp:"none — audit proposes one Monday"},
+      email:{rpr:["$0.31","— flat","up"], share:"24%", list:"+21"},
+      blog:{posts:"1", ses:["287","▲ 12%","up"], top:"“Wabi-sabi for small kitchens”"},
+      digest:"<b>10 of 12 routines ran.</b> Metricool token expired Thursday — pins fell back to manual sheets. Reconnect to resume auto-scheduling.",
+      decisions:[
+        {src:"System", txt:"Metricool disconnected since Thu — routines are writing manual scheduling sheets. Reconnect in Settings."},
+        {src:"04 · Sales", txt:"Free-shipping threshold test ($60) is 2 weeks old: +11% AOV. Keep it?"}
+      ],
+      sched:[
+        ["09:00","08 · Fulfillment — order export","done","no new orders"],
+        ["10:00","05 · Social — daily content","warn","fallback: manual sheet"],
+        ["20:00","06 · Products — IP gate","next","1 draft queued"],
+        ["21:00","01 · Pinterest — daily pins","warn","fallback: manual sheet"],
+        ["21:00","02 · Blog — research & write","queued","topic: “glaze care 101”"]
+      ]
+    },
+    paper:{
+      title:"Paper Meridian", status:"● Live — first week (baseline)", statusClass:"pill ok",
+      kpis:{rev:["$96","first week","flat"], ord:["2","first week","flat"], ses:["412","first week","flat"], cvr:["0.49%","baseline forming","flat"]},
+      spark:{rev:[1,1,2,1.5,2.5,3,3.4], ord:[1,1,2,1,2,2,2], ses:[1.5,2,2.4,2.6,3,3.4,3.8], cvr:[2,2.2,2.4,2.3,2.5,2.4,2.5]},
+      pin:{imp:["3.1K","first week","up"], sav:["44","first week","up"], clk:["19","first week","up"], exp:"none until 2 weeks of data"},
+      email:{rpr:["—","no sends yet","up"], share:"—", list:"+9"},
+      blog:{posts:"1", ses:["58","first week","up"], top:"“Three desk objects that earn their place”"},
+      digest:"<b>First digest arrives Saturday.</b> Baseline mode: routines collect two clean weeks of data before proposing changes.",
+      decisions:[
+        {src:"01 · Pinterest", txt:"Products folder has images for 9 of 24 products — drop photos for the rest to unlock full rotation."}
+      ],
+      sched:[
+        ["10:00","05 · Social — daily content","done","1 post scheduled"],
+        ["20:00","06 · Products — IP gate","next","6 drafts queued"],
+        ["21:00","01 · Pinterest — daily pins","queued","10 pins planned"],
+        ["21:00","02 · Blog — research & write","queued","topic: “journaling setups”"]
+      ]
+    }
+  };
+
+  var ROUTINES = [
+    ["00 · Ops — Weekly Digest","Sat 09:00","Sat (3d ago)","Sat 09:00","ok"],
+    ["01 · Pinterest — Daily Content","daily 21:00","yesterday 21:02","today 21:00","ok"],
+    ["01 · Pinterest — Weekly Audit","Mon 08:30","Mon 08:31","Mon 08:30","ok"],
+    ["02 · Blog — Research & Write","Tue + Sat 21:00","Tue 21:04","Sat 21:00","ok"],
+    ["03 · Reddit — Thread Scout","Tue/Thu/Sat 19:00","Thu 19:01","Sat 19:00","ok"],
+    ["03 · Reddit — Posting Reminder","Tue/Thu/Sat 22:00","Thu 22:00","Sat 22:00","ok"],
+    ["04 · Sales — Weekly Audit","Mon 09:00","Mon 09:02","Mon 09:00","ok"],
+    ["05 · Social — Daily Content","daily 10:00","today 10:01","tomorrow 10:00","ok"],
+    ["05 · Social — Weekly Report","Sun 20:00","Sun 20:00","Sun 20:00","ok"],
+    ["06 · Products — IP Gate","daily 20:00","yesterday 20:00","today 20:00","ok"],
+    ["07 · Analytics — Conversion Intel","Mon 08:00","Mon 08:01","Mon 08:00","ok"],
+    ["08 · Fulfillment — Order Export","daily 09:00","today 09:00","tomorrow 09:00","ok"]
+  ];
+
+  var currentBrand = "fern";
+
+  function sparkPoints(arr){
+    var min = Math.min.apply(null,arr), max = Math.max.apply(null,arr);
+    var span = (max-min)||1;
+    return arr.map(function(v,i){
+      var x = (i/(arr.length-1))*96 + 2;
+      var y = 30 - ((v-min)/span)*24;
+      return x.toFixed(1)+","+y.toFixed(1);
+    });
+  }
+  function setSpark(id, arr){
+    var pts = sparkPoints(arr);
+    $("#s-"+id).setAttribute("points", pts.join(" "));
+    var last = pts[pts.length-1].split(",");
+    var c = $("#c-"+id); c.setAttribute("cx", last[0]); c.setAttribute("cy", last[1]);
+  }
+  function setStat(prefix, key, val){
+    var v = $("#"+prefix+"-"+key); if(v) v.textContent = val[0];
+    var d = $("#"+prefix+"-"+key+"-d");
+    if(d){ d.textContent = val[1]; d.className = d.className.replace(/\b(up|down|flat)\b/g,"").trim()+" "+val[2]; }
+  }
+
+  function render(id){
+    var b = BRANDS[id];
+    $("#dashTitle").innerHTML = b.title;
+    $("#dashStatus").textContent = b.status.replace(/^●\s*/,"● ");
+    $("#dashStatus").className = b.statusClass;
+    ["rev","ord","ses","cvr"].forEach(function(k){
+      $("#k-"+k).textContent = b.kpis[k][0];
+      var d = $("#k-"+k+"-d"); d.textContent = b.kpis[k][1]; d.className = "k-delta "+b.kpis[k][2];
+      setSpark(k, b.spark[k]);
+    });
+    setStat("p","imp",b.pin.imp); setStat("p","sav",b.pin.sav); setStat("p","clk",b.pin.clk);
+    $("#p-exp").textContent = b.pin.exp;
+    setStat("e","rpr",b.email.rpr);
+    $("#e-share").textContent = b.email.share; $("#e-list").textContent = b.email.list;
+    $("#b-posts").textContent = b.blog.posts; setStat("b","ses",b.blog.ses); $("#b-top").textContent = b.blog.top;
+    $("#digestQuote").innerHTML = b.digest;
+
+    /* schedule */
+    var sl = $("#schedList"); sl.innerHTML = "";
+    b.sched.forEach(function(r){
+      var pill = r[2]==="done" ? '<span class="pill ok">ran</span>'
+               : r[2]==="next" ? '<span class="pill accent">up next</span>'
+               : r[2]==="warn" ? '<span class="pill warn">fallback</span>'
+               : '<span class="pill neutral">queued</span>';
+      var row = document.createElement("div"); row.className = "sched-row";
+      row.innerHTML = '<span class="t mono">'+r[0]+'</span><span class="name">'+r[1]+'</span><span class="muted" style="font-size:12.5px">'+r[3]+'</span>'+pill;
+      sl.appendChild(row);
+    });
+
+    /* decisions */
+    var dl = $("#decList"); dl.innerHTML = "";
+    b.decisions.forEach(function(d){
+      var el = document.createElement("div"); el.className = "decision";
+      el.innerHTML = '<div class="d-top"><p>'+d.txt+'</p><span class="d-src">'+d.src+'</span></div>'+
+        '<div class="d-act"><button class="btn small primary">Approve</button><button class="btn small ghost">Decide Saturday</button></div>';
+      var btns = el.querySelectorAll("button");
+      btns[0].addEventListener("click", function(){
+        el.innerHTML = '<p style="margin:0" class="muted">✓ Approved — the owning routine implements it on its next run and reports the before/after next week.</p>';
+        updateDecCount();
+      });
+      btns[1].addEventListener("click", function(){
+        el.innerHTML = '<p style="margin:0" class="muted">→ Parked — it will reappear in Saturday\'s digest under “decisions waiting on you”.</p>';
+        updateDecCount();
+      });
+      dl.appendChild(el);
+    });
+    updateDecCount();
+
+    var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    $("#todayLabel").textContent = days[new Date().getDay()];
+  }
+
+  function updateDecCount(){
+    var open = $$("#decList .decision .d-act").length;
+    var c = $("#decCount");
+    c.textContent = open+" open";
+    c.className = open>0 ? "pill warn" : "pill ok";
+    if(open===0) c.textContent = "all clear";
+  }
+
+  window.switchBrand = function(id){ currentBrand = id; render(id); };
+
+  /* routines table */
+  (function(){
+    var tb = $("#rtTable tbody");
+    ROUTINES.forEach(function(r){
+      var tr = document.createElement("tr");
+      tr.innerHTML = '<td><span class="status-dot ok"></span><b>'+r[0]+'</b></td>'+
+        '<td class="mono">'+r[1]+'</td><td class="mono muted">'+r[2]+'</td><td class="mono">'+r[3]+'</td>'+
+        '<td><span class="pill ok">on schedule</span></td><td></td>';
+      var td = tr.lastElementChild;
+      var btn = document.createElement("button"); btn.className = "btn small ghost"; btn.textContent = "Pause";
+      btn.addEventListener("click", function(){
+        var paused = btn.textContent === "Resume";
+        btn.textContent = paused ? "Pause" : "Resume";
+        var pill = tr.querySelector(".pill"); var dot = tr.querySelector(".status-dot");
+        if(paused){ pill.textContent="on schedule"; pill.className="pill ok"; dot.className="status-dot ok"; }
+        else { pill.textContent="paused"; pill.className="pill neutral"; dot.className="status-dot off"; }
+      });
+      td.appendChild(btn);
+      tb.appendChild(tr);
+    });
+  })();
+
+  /* demo entry: allow jumping straight to the dashboard with ?demo — default flow starts at login */
+  render("fern");
+})();
+</script>
+
+</body>
+</html>

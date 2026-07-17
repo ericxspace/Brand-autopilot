@@ -14,6 +14,7 @@ Built and battle-tested on a real Gen Z home-decor store, then genericized so an
 | `routines/` | 12 routine prompt **templates** (9 groups, 00–08) with `{{PLACEHOLDERS}}` + an architecture README |
 | `playbooks/` | Shared standards the routines co-read: the **blog editorial standard** (90/10 subtle-sell + the delete-the-products gate) and **multi-engine SEO** (Google + Bing + ChatGPT/Copilot rules + the organic-search ops checklist) |
 | `tools/` | `build_fulfillment_xlsx.py` — the price-blind Excel builder Group 08 uses (column allowlist + refuses to run if a money field reaches it) |
+| `app/` | A clickable **prototype of the Brand Autopilot app** (sign in with Shopify → setup wizard → multi-brand dashboard) — open `app/prototype.html` in any browser; fictional data |
 | `brand-config.template.md` | The single config sheet the setup interview fills in |
 
 ### The 9 groups (12 recurring routines)
