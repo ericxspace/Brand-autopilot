@@ -49,6 +49,7 @@
 | `{{PINS_PER_DAY}}` | total pins/day | default 10 — treat 10 as the anti-spam ceiling; if the account is new or recovering, trim the TOTAL, not just the ratio |
 | `{{PRODUCT_PINS_PER_DAY}}` | product-pin share of the total | default 6 |
 | `{{INSPIRATION_PINS_PER_DAY}}` | inspiration-pin share (always takes the peak slots) | default 4 — product + inspiration must sum to `{{PINS_PER_DAY}}` |
+| `{{PIN_MODE}}` | `product-first` \| `inspiration-first` | default `product-first`. `inspiration-first` = the recovery/growth variant (majority linkless multi-product scene pins + founder manual tagging via per-pin tag manifests + a ~2/day linked control arm) — switch when linked product pins are selectively suppressed but scene pins still distribute; see routine 01 for the full mode spec |
 | `{{BLOG_POSTS_PER_WEEK}}` | posts/week | default 2, HARD CAP 3 (quality + anti-cannibalization); must match the number of days in `{{BLOG_DAYS}}` |
 | `{{BLOG_DAYS}}` | one run day per post | default Tue + Sat |
 | `{{BLOG_PUBLISH_MODE}}` | | `draft` (recommended start) or `publish` (full auto) |
