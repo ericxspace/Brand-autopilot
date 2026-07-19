@@ -129,6 +129,39 @@ window.addEventListener("DOMContentLoaded", () => {
     const rtSub = document.querySelector('.view[data-view="routines"] .sub');
     if (rtSub) rtSub.textContent = "Cadence + model reference for the 12 routines. Live run history and pause controls land in Phase 2 — for now, tell Claude in chat to change or pause anything.";
 
+    // Settings: real data replaces the demo placeholders.
+    const pkg = require("./package.json");
+    const setSub = document.getElementById("setSub");
+    if (setSub) setSub.textContent = "Read-only in the test build — edit brand.local.json (or tell Claude in chat) to change anything here.";
+    const setBuild = document.getElementById("setBuild");
+    if (setBuild) setBuild.textContent = "desktop v" + pkg.version;
+    const setClaude = document.getElementById("setClaude");
+    if (setClaude) {
+      setClaude.innerHTML =
+        '<div class="chan-stat"><span>Claude Code</span><span class="v" style="font-family:var(--sans);font-weight:600;font-size:12.5px">' +
+        (LIVE.claude.detected ? '<span class="pill ok">detected</span> ' + LIVE.claude.version : '<span class="pill crit">not found</span> install Claude Code + sign in') +
+        "</span></div>" +
+        '<div class="chan-stat"><span>Account</span><span class="v" style="font-family:var(--sans);font-weight:500;font-size:12.5px">your local Claude sign-in (this machine)</span></div>';
+    }
+    const setConfig = document.getElementById("setConfig");
+    if (setConfig) {
+      let rows = '<div class="chan-stat"><span>Config</span><span class="v" style="font-size:11.5px">' + LIVE.configPath + "</span></div>";
+      (LIVE.ledgerStatus || []).forEach((l) => {
+        rows += '<div class="chan-stat"><span>' + l.key + "</span><span>" +
+          (l.found ? '<span class="pill ok">found</span>' : '<span class="pill crit">missing</span>') +
+          ' <span class="v" style="font-size:11px">' + l.path + "</span></span></div>";
+      });
+      setConfig.innerHTML = rows;
+    }
+    const setConns = document.getElementById("setConns");
+    if (setConns) {
+      setConns.innerHTML =
+        '<div class="chan-stat"><span>Shopify · Metricool · Klaviyo · Notion · Drive</span><span class="v" style="font-family:var(--sans);font-weight:500;font-size:12px">authorized in your Claude app; routines use them there</span></div>' +
+        '<div class="chan-stat"><span>This window</span><span class="v" style="font-family:var(--sans);font-weight:500;font-size:12px">reads local ledger files only — no network calls</span></div>';
+    }
+    const foot = document.querySelector(".side .foot");
+    if (foot) foot.innerHTML = "Desktop test build v" + pkg.version + " · live ledgers<br>Feedback → Eric";
+
     window.enterApp();
     activate();
 

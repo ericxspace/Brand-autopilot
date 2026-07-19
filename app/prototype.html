@@ -516,7 +516,7 @@
     <button class="nav-btn on" data-view="dash" onclick="goView('dash')"><span class="ico">◉</span>Dashboard</button>
     <button class="nav-btn" data-view="routines" onclick="goView('routines')"><span class="ico">↻</span>Routines</button>
     <button class="nav-btn" data-view="brands" onclick="goView('brands')"><span class="ico">▦</span>Brands</button>
-    <button class="nav-btn" onclick="toast('Settings ships in the beta — connections, config, and billing will live here.')"><span class="ico">⚙</span>Settings</button>
+    <button class="nav-btn" data-view="settings" onclick="goView('settings')"><span class="ico">⚙</span>Settings</button>
     <div class="foot">Prototype v0.2 · fictional data<br>Feedback → Eric</div>
   </aside>
 
@@ -619,6 +619,43 @@
           <button class="btn small" onclick="resumeSetup()">Resume setup</button>
         </div>
         <button class="add-brand" onclick="resumeSetup()"><span class="plus">＋</span>Add a brand<span class="muted" style="font-size:12px;font-weight:400">Sign in with its Shopify store</span></button>
+      </div>
+    </div>
+    <!-- SETTINGS -->
+    <div class="view" data-view="settings">
+      <div class="page-head">
+        <div><h1>Settings</h1><p class="sub" id="setSub">Demo mode — in the desktop build this page shows your real Claude sign-in, brand config, and ledger health.</p></div>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-col">
+          <div class="card">
+            <h2>Claude account</h2>
+            <div id="setClaude">
+              <div class="chan-stat"><span>Status</span><span class="v">demo — no account connected</span></div>
+            </div>
+            <p class="muted" style="font-size:12px;margin:10px 0 0">Brand Autopilot runs on <b>your</b> Claude subscription (Max recommended). The desktop build detects your local Claude Code sign-in — routines bill to your plan, never to anyone else's, and no API keys are stored here.</p>
+          </div>
+          <div class="card">
+            <h2>Brand config &amp; ledgers</h2>
+            <div id="setConfig">
+              <p class="muted" style="font-size:13px;margin:0">No brand config in demo mode. The desktop build reads <span class="mono">brand.local.json</span> and lists every ledger the LIVE dashboard uses, each with a found/missing check.</p>
+            </div>
+          </div>
+        </div>
+        <div class="dash-col">
+          <div class="card">
+            <h2>Connections</h2>
+            <div id="setConns"></div>
+            <p class="muted" style="font-size:12px;margin:10px 0 0">Connections are authorized in your own Claude app (Settings → Connectors) — this page reports them; in-app connect/disconnect lands in Phase 2.</p>
+          </div>
+          <div class="card">
+            <h2>About</h2>
+            <div class="chan-stat"><span>Build</span><span class="v" id="setBuild">web prototype</span></div>
+            <div class="chan-stat"><span>License</span><span class="v">MIT</span></div>
+            <div class="chan-stat"><span>Source</span><span class="v">github.com/ericxspace/Brand-autopilot</span></div>
+            <div class="chan-stat"><span>Uninstall (desktop)</span><span class="v" style="font-family:var(--sans);font-weight:500;font-size:12px">delete the two “Brand Autopilot” shortcuts</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -978,6 +1015,16 @@
     input.addEventListener("blur", function(){
       var v = input.value.replace(/,/g, "").trim();
       if (v) { addChip(v); input.value = ""; }
+    });
+  })();
+
+  /* settings: mirror the connection cards' current state (demo mode; desktop overwrites with real data) */
+  (function(){
+    var box = $("#setConns"); if(!box) return;
+    $$("#setup .conn").forEach(function(c){
+      var row = document.createElement("div"); row.className = "chan-stat";
+      row.innerHTML = '<span>'+c.querySelector("h3").textContent+'</span><span class="v" style="font-family:var(--sans);font-weight:500;font-size:12.5px">'+c.querySelector(".conn-state").textContent+'</span>';
+      box.appendChild(row);
     });
   })();
 

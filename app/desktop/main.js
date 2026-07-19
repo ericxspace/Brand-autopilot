@@ -60,6 +60,9 @@ function gatherLive() {
     };
   }, null);
 
+  data.configPath = cfgPath;
+  data.ledgerStatus = Object.keys(L).map((k) => ({ key: k, path: L[k], found: safe(() => fs.existsSync(L[k]), false) }));
+
   data.pins = safe(() => {
     const s = JSON.parse(read(L.pinTaskState));
     const last = s.lastScheduledDate || null;
@@ -106,11 +109,16 @@ app.whenReady().then(async () => {
       try {
         const img = await win.webContents.capturePage();
         fs.writeFileSync(path.join(__dirname, "smoke.png"), img.toPNG());
+        await win.webContents.executeJavaScript('goView("settings")');
+        await new Promise((r) => setTimeout(r, 400));
+        const img2 = await win.webContents.capturePage();
+        fs.writeFileSync(path.join(__dirname, "smoke-settings.png"), img2.toPNG());
         const summary = await win.webContents.executeJavaScript(
           '({liveOption: !!document.querySelector("#brandSel option[value=\\"live\\"]"),' +
           ' brandOptions: document.querySelectorAll("#brandSel option").length,' +
           ' demoCards: document.querySelectorAll(".brand-grid .brand-card").length,' +
           ' pausedBtns: !!document.querySelector("#rtTable tbody button:not([disabled])"),' +
+          ' ledgerRows: document.querySelectorAll("#setConfig .chan-stat").length,' +
           ' shellActive: document.getElementById("shell").classList.contains("active"),' +
           ' dashTitle: document.getElementById("dashTitle").textContent,' +
           ' status: document.getElementById("dashStatus").textContent})'
