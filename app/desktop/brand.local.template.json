@@ -1,0 +1,14 @@
+{
+  "_comment": "Copy to brand.local.json (never commit it) to unlock the LIVE brand. Every path is read-only; point them at YOUR brand's routine ledgers. Omit any ledger you don't have — its panel shows '—'.",
+  "label": "🟢 My Brand (LIVE)",
+  "title": "My Brand",
+  "ledgers": {
+    "fulfillmentState": "X:/path/to/ops/fulfillment/state.json",
+    "posthogLedger": "X:/path/to/ops/analytics/run-ledger.jsonl",
+    "posthogHandoff": "X:/path/to/ops/analytics/handoff-to-04-latest.md",
+    "blogTopicLedger": "X:/path/to/ops/blog/topic-ledger.json",
+    "salesAuditLog": "X:/path/to/ops/sales/audit-log.md",
+    "pinTaskState": "C:/Users/YOU/.claude/scheduled-tasks/<pin-task-name>/state.json",
+    "pinFeatures": "C:/Users/YOU/.claude/scheduled-tasks/<pin-task-name>/pin-features.jsonl"
+  }
+}

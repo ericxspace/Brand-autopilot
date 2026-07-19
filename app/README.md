@@ -1,5 +1,7 @@
 # Brand Autopilot — App (prototype)
 
+> **Desktop test build:** `desktop/` wraps this UI in a local Electron window and adds an optional **LIVE brand** fed read-only from your routine ledgers, with your own Claude sign-in as the account layer — see [desktop/README.md](desktop/README.md).
+
 `prototype.html` is a **clickable, self-contained mock** of the Brand Autopilot app — the beginner-friendly interface planned on top of the routine kit in this repo. Open it in any browser; every number and brand in it is fictional, nothing is saved, and no real service is contacted.
 
 ## What the prototype shows

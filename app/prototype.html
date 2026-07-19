@@ -882,6 +882,19 @@
 
   window.switchBrand = function(id){ currentBrand = id; render(id); };
 
+  /* integration hooks for the desktop shell (inert in the browser demo):
+     registerBrand injects a real brand (e.g. live ledger data) into the switcher;
+     enterApp jumps straight to the dashboard, skipping the demo sign-in. */
+  window.registerBrand = function(id, label, data){
+    BRANDS[id] = data;
+    var sel = $("#brandSel");
+    var opt = document.createElement("option");
+    opt.value = id; opt.textContent = label;
+    sel.insertBefore(opt, sel.firstChild);
+    return function activate(){ sel.value = id; switchBrand(id); };
+  };
+  window.enterApp = function(){ showScreen("shell"); goView("dash"); };
+
   /* routines table */
   (function(){
     var tb = $("#rtTable tbody");
