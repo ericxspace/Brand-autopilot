@@ -1,17 +1,20 @@
 {
   "name": "brand-autopilot-desktop",
-  "version": "0.1.0",
-  "description": "Brand Autopilot desktop shell — test build. Loads the app UI and, when brand.local.json is present, a LIVE brand fed by your local routine ledgers and your own Claude sign-in.",
+  "version": "0.2.0-beta.1",
+  "description": "Brand Autopilot desktop shell \u2014 test build. Loads the app UI and, when brand.local.json is present, a LIVE brand fed by your local routine ledgers and your own Claude sign-in.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "smoke": "electron . --smoke"
+    "smoke": "electron . --smoke",
+    "package": "node build-package.js"
   },
   "license": "MIT",
   "devDependencies": {
-    "electron": "^33.0.0"
+    "electron": "^33.0.0",
+    "electron-packager": "^17.1.2"
   },
   "allowScripts": {
     "electron@33.4.11": true
-  }
+  },
+  "productName": "Brand Autopilot"
 }

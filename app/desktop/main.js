@@ -9,9 +9,19 @@ const { execSync } = require("child_process");
 
 function safe(fn, fallback) { try { return fn(); } catch (e) { return fallback; } }
 
+// Config lookup: next to the .exe first (packaged/portable convention — testers
+// drop brand.local.json beside Brand Autopilot.exe), then the app dir (dev).
+function findConfig() {
+  const candidates = [
+    path.join(path.dirname(process.execPath), "brand.local.json"),
+    path.join(__dirname, "brand.local.json"),
+  ];
+  return candidates.find((p) => { try { return fs.existsSync(p); } catch (e) { return false; } }) || null;
+}
+
 function gatherLive() {
-  const cfgPath = path.join(__dirname, "brand.local.json");
-  if (!fs.existsSync(cfgPath)) return null;
+  const cfgPath = findConfig();
+  if (!cfgPath) return null;
   const cfg = JSON.parse(fs.readFileSync(cfgPath, "utf8"));
   const L = cfg.ledgers || {};
   const read = (p) => fs.readFileSync(p, "utf8");
@@ -102,7 +112,10 @@ app.whenReady().then(async () => {
     },
   });
   win.removeMenu();
-  await win.loadFile(path.join(__dirname, "..", "prototype.html"));
+  // Dev runs load the repo copy (always fresh); the packaged app carries its own
+  // copy of prototype.html placed by the build script.
+  const devUi = path.join(__dirname, "..", "prototype.html");
+  await win.loadFile(fs.existsSync(devUi) ? devUi : path.join(__dirname, "prototype.html"));
 
   if (smoke) {
     setTimeout(async () => {
