@@ -108,6 +108,9 @@ app.whenReady().then(async () => {
         fs.writeFileSync(path.join(__dirname, "smoke.png"), img.toPNG());
         const summary = await win.webContents.executeJavaScript(
           '({liveOption: !!document.querySelector("#brandSel option[value=\\"live\\"]"),' +
+          ' brandOptions: document.querySelectorAll("#brandSel option").length,' +
+          ' demoCards: document.querySelectorAll(".brand-grid .brand-card").length,' +
+          ' pausedBtns: !!document.querySelector("#rtTable tbody button:not([disabled])"),' +
           ' shellActive: document.getElementById("shell").classList.contains("active"),' +
           ' dashTitle: document.getElementById("dashTitle").textContent,' +
           ' status: document.getElementById("dashStatus").textContent})'

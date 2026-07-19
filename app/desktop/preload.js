@@ -93,10 +93,49 @@ window.addEventListener("DOMContentLoaded", () => {
     const activate = window.registerBrand("live", LIVE.cfg.label, buildBrand(LIVE));
     const ribbon = document.querySelector(".ribbon span:last-child");
     if (ribbon) {
-      ribbon.innerHTML = "<b>Desktop test build</b> — the 🟢 LIVE brand is a read-only view of your local routine ledgers; the other brands are fictional demos. Nothing is written or sent anywhere.";
+      ribbon.innerHTML = "<b>Desktop test build</b> — a read-only view of your local routine ledgers. Nothing is written or sent anywhere.";
     }
+
+    // LIVE mode: remove the fictional demo brands entirely.
+    document.querySelectorAll("#brandSel option").forEach((o) => { if (o.value !== "live") o.remove(); });
+    document.querySelectorAll(".brand-grid .brand-card").forEach((c) => c.remove());
+    const grid = document.querySelector(".brand-grid");
+    if (grid) {
+      const ph = LIVE.posthog && LIVE.posthog.last;
+      const card = document.createElement("div");
+      card.className = "card brand-card";
+      card.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:center"><h3>' + LIVE.cfg.label + "</h3>" +
+        '<span class="pill ok">Live</span></div>' +
+        '<p class="niche">Read-only view of this machine’s routine ledgers</p>' +
+        '<div class="mini"><span><b>' + (LIVE.fulfillment ? LIVE.fulfillment.exportedTotal : "—") + "</b>orders exported</span>" +
+        "<span><b>" + (ph ? ph.sessions : "—") + "</b>sessions · wk</span>" +
+        "<span><b>" + (LIVE.blog ? LIVE.blog.publishedCount : "—") + "</b>blog posts</span></div>";
+      const btn = document.createElement("button");
+      btn.className = "btn small";
+      btn.textContent = "Open dashboard";
+      btn.addEventListener("click", () => window.openBrand("live"));
+      card.appendChild(btn);
+      grid.insertBefore(card, grid.firstChild);
+    }
+
+    // Routines table ships demo run times — blank them and disable the mock Pause buttons.
+    document.querySelectorAll("#rtTable tbody tr").forEach((tr) => {
+      const tds = tr.querySelectorAll("td");
+      if (tds.length >= 6) { tds[3].textContent = "—"; tds[4].textContent = "—"; }
+      const btn = tr.querySelector("button");
+      if (btn) { btn.disabled = true; btn.title = "Pause/resume wiring lands in Phase 2 — tell Claude in chat for now"; }
+    });
+    const rtSub = document.querySelector('.view[data-view="routines"] .sub');
+    if (rtSub) rtSub.textContent = "Cadence + model reference for the 12 routines. Live run history and pause controls land in Phase 2 — for now, tell Claude in chat to change or pause anything.";
+
     window.enterApp();
     activate();
+
+    // The decisions are real (from the handoff ledger) but in-app approval isn't wired yet — say so instead of faking it.
+    document.querySelectorAll("#decList .decision .d-act").forEach((a) => {
+      a.innerHTML = '<span class="muted" style="font-size:12px">To act on this: tell Claude in chat — in-app approve lands in Phase 2.</span>';
+    });
     if (window.toast) setTimeout(() => window.toast("LIVE — read-only view of your local routine ledgers"), 600);
   } catch (e) {
     console.error("live adapter failed", e);
