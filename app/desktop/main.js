@@ -85,6 +85,7 @@ app.whenReady().then(async () => {
     height: 900,
     show: !smoke,
     title: "Brand Autopilot",
+    icon: path.join(__dirname, "icon.ico"),
     backgroundColor: "#F3F1EA",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
